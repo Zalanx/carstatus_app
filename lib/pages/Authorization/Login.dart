@@ -5,6 +5,12 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      body: _pageBody(),
+    );
   }
+}
+
+Widget _pageBody() {
+  return const Placeholder();
 }
