@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
 
 class CsButton extends StatelessWidget {
-  const CsButton({super.key, required this.height, required this.width, this.padding, this.margin, this.borderRadius, required this.child, this.onTap});
+  const CsButton({
+    super.key,
+    required this.height,
+    required this.width,
+    this.padding,
+    this.margin,
+    this.borderRadius,
+    required this.child,
+    this.onTap,
+  });
 
   final double height;
   final double width;
@@ -9,13 +18,12 @@ class CsButton extends StatelessWidget {
   final EdgeInsets? margin;
   final BorderRadius? borderRadius;
   final Widget child;
-  final Function? onTap;
-
+  final GestureTapCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => onTap ?? () => {},
+      onTap: onTap ?? () => {},
       child: Container(
         padding: padding,
         margin: margin,

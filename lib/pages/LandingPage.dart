@@ -1,6 +1,8 @@
 import 'package:carstatus_app/components/cs_button.dart';
 import 'package:carstatus_app/components/cs_scaffold.dart';
+import 'package:carstatus_app/pages/Authorization/Login.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class Landingpage extends StatelessWidget {
   const Landingpage({super.key});
@@ -19,31 +21,32 @@ class Landingpage extends StatelessWidget {
         children: [
           Center(
             child: Text(
-              "Welcome to SAMUEL AUTOHAUS!",
+              "Samuel Autohaus GmbH",
               style: TextStyle(
                 fontStyle: FontStyle.italic,
-                fontSize: 24,
-                fontWeight: FontWeight.w800,
+                fontSize: 32,
+                fontWeight: FontWeight.bold,
               ),
             ),
           ),
           SizedBox(
-            height: 200,
-            width: 200,
+            height: 280,
+            width: 280,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 CsButton(
-                  height: 80,
-                  width: 150,
+                  onTap: () => Get.to(() => const LoginPage()),
+                  height: 120,
+                  width: 200,
                   borderRadius: BorderRadius.circular(16),
-                  child: Text("Login"),
+                  child: Text("Einloggen"),
                 ),
                 CsButton(
-                  height: 80,
-                  width: 150,
+                  height: 120,
+                  width: 200,
                   borderRadius: BorderRadius.circular(16),
-                  child: Text("Register"),
+                  child: Text("Registrieren"),
                 ),
               ],
             ),

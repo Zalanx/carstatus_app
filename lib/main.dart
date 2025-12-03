@@ -1,5 +1,6 @@
 import 'package:carstatus_app/pages/LandingPage.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_navigation/src/root/get_material_app.dart';
 
 void main() {
   putControllers();
@@ -13,7 +14,7 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(home: Landingpage());
+    return const GetMaterialApp(home: Landingpage());
   }
 }
 

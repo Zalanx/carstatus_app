@@ -1,17 +1,23 @@
+import 'package:carstatus_app/components/cs_appbar.dart';
 import 'package:flutter/material.dart';
 
 class CsScaffold extends StatelessWidget {
-  const CsScaffold({super.key, required this.body, this.padding});
+  const CsScaffold({super.key, required this.body, this.padding, this.appBar});
 
   final Widget body;
   final EdgeInsetsGeometry? padding;
+  final Widget? appBar;
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         extendBodyBehindAppBar: true,
-        body: Padding(padding: padding ?? _pageInsets(), child: body),
+        appBar: PreferredSize(
+          preferredSize: Size(MediaQuery.sizeOf(context).width, 60),
+          child: appBar ?? const CsAppbar(pageTitle: ""),),
+        body: Padding(padding: padding ?? _pageInsets(), 
+        child: body),
       ),
     );
   }
