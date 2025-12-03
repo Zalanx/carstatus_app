@@ -1,6 +1,7 @@
-import 'package:carstatus_app/pages/LandingPage.dart';
+import 'package:carstatus_app/helper/Themehelper.dart';
+import 'package:carstatus_app/pages/Landing%20Page/LandingPage.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:get/get.dart';
 
 void main() {
   putControllers();
@@ -14,10 +15,15 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const GetMaterialApp(home: Landingpage());
+    final theme = Get.find<ThemeHelper>();
+    return Obx(() => GetMaterialApp(theme: ThemeData.light(), darkTheme: ThemeData.dark(), themeMode: theme.darkmode.value ? ThemeMode.dark : ThemeMode.light, home: Landingpage()));
   }
 }
 
-void putControllers() {}
+void putControllers() {
+  Get.put(ThemeHelper());
+}
 
-void setControllers() {}
+void setControllers() {
+  Get.find<ThemeHelper>();
+}

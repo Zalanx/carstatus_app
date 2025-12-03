@@ -1,4 +1,5 @@
 import 'package:carstatus_app/components/cs_text.dart';
+import 'package:carstatus_app/helper/Themehelper.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -19,6 +20,7 @@ class CsAppbar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Get.find<ThemeHelper>();
     return Container(
       color: (backgroundFill ?? false)
           ? Colors.greenAccent
@@ -39,10 +41,12 @@ class CsAppbar extends StatelessWidget {
                               ? backButtonOnTap!()
                               : () => {},
                         },
-                        icon: FaIcon(
-                          FontAwesomeIcons.arrowLeft,
-                          color:
-                              (backgroundFill ?? false) ? Colors.white : Colors.black,
+                        icon: Obx(
+                          () => FaIcon(
+                            FontAwesomeIcons.arrowLeft,
+                            color:
+                                theme.darkmode.value ? Colors.white : Colors.black,
+                          ),
                         ),
                       ),
                     )
@@ -57,6 +61,7 @@ class CsAppbar extends StatelessWidget {
                   ),
               const SizedBox(
                 width: 50,
+                
               ),
             ],
           ),

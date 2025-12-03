@@ -15,7 +15,7 @@ class CsScaffold extends StatelessWidget {
         extendBodyBehindAppBar: true,
         appBar: PreferredSize(
           preferredSize: Size(MediaQuery.sizeOf(context).width, 60),
-          child: appBar ?? const CsAppbar(pageTitle: ""),),
+          child: appBar ?? const CsAppbar(pageTitle: "", ),),
         body: Padding(padding: padding ?? _pageInsets(), 
         child: body),
       ),
