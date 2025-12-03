@@ -1,6 +1,7 @@
 import 'package:carstatus_app/components/cs_button.dart';
 import 'package:carstatus_app/components/cs_scaffold.dart';
 import 'package:carstatus_app/pages/Authorization/Login.dart';
+import 'package:carstatus_app/pages/Authorization/Registration.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -43,6 +44,7 @@ class Landingpage extends StatelessWidget {
                   child: Text("Einloggen"),
                 ),
                 CsButton(
+                   onTap: () => Get.to(() => const RegistrationPage()),
                   height: 120,
                   width: 200,
                   borderRadius: BorderRadius.circular(16),
