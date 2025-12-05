@@ -1,7 +1,10 @@
 import 'package:carstatus_app/components/cs_appbar.dart';
 import 'package:carstatus_app/components/cs_scaffold.dart';
 import 'package:carstatus_app/components/cs_text.dart';
+import 'package:carstatus_app/pages/Ticket%20list%20view/TicketListController.dart';
+import 'package:carstatus_app/pages/Ticket%20list%20view/TicketListPage.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -15,6 +18,7 @@ class LoginPage extends StatelessWidget {
 }
 
 Widget _pageBody(BuildContext context) {
+  Ticketlistcontroller controller = Get.find<Ticketlistcontroller>();
   return SizedBox(
     height: MediaQuery.sizeOf(context).height,
     width: MediaQuery.sizeOf(context).width,
@@ -47,11 +51,10 @@ Widget _pageBody(BuildContext context) {
           ],
         ),
         ElevatedButton(
-          onPressed: () {
-            //die logik vom login
-          },
+          onPressed: () => controller.fetchTickets(),
           child: const CsText(text: "Einloggen", size: 20,),
         ),
+        ElevatedButton(onPressed: () => Get.to(TicketListView()), child: Text("data"))
       ],
     ),
   );
