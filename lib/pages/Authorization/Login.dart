@@ -51,10 +51,12 @@ Widget _pageBody(BuildContext context) {
           ],
         ),
         ElevatedButton(
-          onPressed: () => controller.fetchTickets(),
+          onPressed: () async {
+            await controller.fetchTickets();
+            Get.to(() => TicketListView());
+          },
           child: const CsText(text: "Einloggen", size: 20,),
         ),
-        ElevatedButton(onPressed: () => Get.to(TicketListView()), child: Text("data"))
       ],
     ),
   );
