@@ -3,7 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class Ticketcontroller extends GetxController {
-  Ticketcontroller({required this.ticket});
+  Ticketcontroller({required this.ticket}) {
+    customerName.value = ticket.customerName ?? "Kein Name";
+    customerNameController = TextEditingController(text: customerName.value);
+
+    customerCar.value = ticket.car ?? "Kein Auto";
+    customerCarController = TextEditingController(text: customerCar.value);
+  }
 
   Swaggerapi api = Swaggerapi.create();
 
@@ -11,7 +17,23 @@ class Ticketcontroller extends GetxController {
 
   TicketDto ticket;
 
-  List<DropdownMenuItem> dropdownItem = [];
+  RxString customerName = "".obs;
+  RxString customerCar = "".obs;
+
+  late TextEditingController customerNameController;
+  late TextEditingController customerCarController;
+  
+  RxBool isEditingName = false.obs;
+  RxBool isEditingCar = false.obs;
+
+  void toggleNameEditing() {
+    isEditingName.value = !isEditingName.value;
+    customerName.value = customerNameController.text;
+  }
+  void toggleCarEditing() {
+    isEditingCar.value = !isEditingCar.value;
+    customerCar.value = customerCarController.text;
+  }
 
   void updateCarStatusTicket(TicketDto ticket) {
     api
