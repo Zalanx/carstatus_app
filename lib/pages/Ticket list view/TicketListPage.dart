@@ -30,7 +30,11 @@ Widget _pageBody(BuildContext context) {
       children: [
         const Center(child: CsText(text: "Verfügbare Tickets", size: 34)),
         ElevatedButton(
+<<<<<<< HEAD
           onPressed:() => {},
+=======
+          onPressed: () => {},
+>>>>>>> 564fb197fd79f5e7af4de703291e5dd30cd93e79
           style: ButtonStyle(
             backgroundColor: WidgetStateProperty.all(Colors.blueAccent),
           ),
@@ -63,11 +67,15 @@ Widget _pageBody(BuildContext context) {
 Widget _ticketCard(TicketDto ticket, BuildContext context) {
   Ticketcontroller controller = Ticketcontroller(ticket: ticket);
   return GestureDetector(
+<<<<<<< HEAD
     onTap:
         () => {
           Get.to(() => TicketPage(ticket: ticket)),
           controller.fillTodoList(ticket),
         },
+=======
+    onTap: () => {Get.to(() => TicketPage(ticket: ticket)), controller.fillTodoList(ticket)},
+>>>>>>> 564fb197fd79f5e7af4de703291e5dd30cd93e79
     child: Container(
       height: 150,
       width: MediaQuery.sizeOf(context).width * 0.9,

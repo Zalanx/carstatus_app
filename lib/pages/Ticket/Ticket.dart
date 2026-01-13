@@ -1,3 +1,4 @@
+
 import 'package:carstatus_app/components/cs_appbar.dart';
 import 'package:carstatus_app/components/cs_button.dart';
 import 'package:carstatus_app/components/cs_scaffold.dart';
@@ -124,8 +125,12 @@ class TicketPage extends StatelessWidget {
                             CarStatusEnum.values
                                 .where(
                                   (e) =>
+<<<<<<< HEAD
                                       e !=
                                       CarStatusEnum.swaggerGeneratedUnknown,
+=======
+                                      e != CarStatusEnum.swaggerGeneratedUnknown,
+>>>>>>> 564fb197fd79f5e7af4de703291e5dd30cd93e79
                                 )
                                 .map(
                                   (e) => DropdownMenuItem(
@@ -151,9 +156,13 @@ class TicketPage extends StatelessWidget {
                 children: [
                   Container(
                     height: 50,
+<<<<<<< HEAD
                     decoration: BoxDecoration(
                       border: Border.fromBorderSide(BorderSide(width: 2)),
                     ),
+=======
+                    decoration: BoxDecoration(border: Border.fromBorderSide(BorderSide(width: 2))),
+>>>>>>> 564fb197fd79f5e7af4de703291e5dd30cd93e79
                     child: Center(
                       child: CsText(text: "Zu erledigen", size: 28),
                     ),
@@ -171,6 +180,7 @@ class TicketPage extends StatelessWidget {
                       ],
                     ),
                   ),
+<<<<<<< HEAD
                   const SizedBox(height: 40),
                   CsButton(
                     height: 60,
@@ -178,6 +188,8 @@ class TicketPage extends StatelessWidget {
                     child: CsText(text: "Aktualisieren", size: 16,),
                     onTap: () => controller.updateCarStatusTicket(ticket),
                   ),
+=======
+>>>>>>> 564fb197fd79f5e7af4de703291e5dd30cd93e79
                 ],
               ),
             ],
@@ -194,12 +206,19 @@ Widget _todoElement(TicketDto ticket, String todo) {
     child: Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
+<<<<<<< HEAD
         Obx(
           () => Checkbox(
             value: controller.todoStatus.value,
             onChanged: (newValue) => controller.todoStatus.value = newValue!,
           ),
         ),
+=======
+        Obx(() => Checkbox(
+          value: controller.todoStatus.value,
+           onChanged: (newValue) => controller.todoStatus.value = newValue!,),
+           ),
+>>>>>>> 564fb197fd79f5e7af4de703291e5dd30cd93e79
         CsText(text: todo, size: 20),
       ],
     ),

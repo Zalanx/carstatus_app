@@ -1,6 +1,7 @@
 // ignore_for_file: type=lint
 
 import 'package:json_annotation/json_annotation.dart';
+import 'package:json_annotation/json_annotation.dart' as json;
 import 'package:collection/collection.dart';
 import 'dart:convert';
 
@@ -9,7 +10,10 @@ import 'package:chopper/chopper.dart';
 import 'client_mapping.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
+<<<<<<< HEAD
 // ignore: unused_import
+=======
+>>>>>>> 564fb197fd79f5e7af4de703291e5dd30cd93e79
 import 'package:http/http.dart' show MultipartFile;
 import 'package:chopper/chopper.dart' as chopper;
 import 'CarStatusApi.enums.swagger.dart' as enums;
