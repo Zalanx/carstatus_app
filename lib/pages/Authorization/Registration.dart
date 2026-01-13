@@ -1,6 +1,7 @@
 import 'package:carstatus_app/components/cs_appbar.dart';
 import 'package:carstatus_app/components/cs_scaffold.dart';
 import 'package:carstatus_app/components/cs_text.dart';
+import 'package:carstatus_app/pages/Authorization/RegistrationController.dart';
 import 'package:flutter/material.dart';
 
 class RegistrationPage extends StatelessWidget {
@@ -13,6 +14,7 @@ class RegistrationPage extends StatelessWidget {
 }
 
 Widget _pageBody(BuildContext context) {
+  Registrationcontroller controller = Registrationcontroller();
   return SizedBox(
     height: MediaQuery.sizeOf(context).height,
     width: MediaQuery.sizeOf(context).width,
@@ -24,6 +26,17 @@ Widget _pageBody(BuildContext context) {
         ),
         Column(
           children: [
+             TextField(
+
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                labelText: 'Kundenname...',
+              ),
+              controller: controller.registrationCustomerName,
+            ),
+            const SizedBox(height: 16),
             TextField(
               decoration: InputDecoration(
                 border: OutlineInputBorder(
@@ -31,6 +44,7 @@ Widget _pageBody(BuildContext context) {
                 ),
                 labelText: 'Benutzername...',
               ),
+              controller: controller.registrationUsername,
             ),
             const SizedBox(height: 16),
             TextField(
@@ -41,12 +55,24 @@ Widget _pageBody(BuildContext context) {
                 ),
                 labelText: 'Passwort...',
               ),
+              controller: controller.registrationPassword,
+            ),
+            const SizedBox(height: 16),
+           TextField(
+              obscureText: true,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                labelText: 'Passwort wiederholen...',
+              ),
+              controller: controller.doubleCheckedPassword,
             ),
           ],
         ),
         ElevatedButton(
           onPressed: () {
-            //die logik vom registrieren
+            controller.registerUser();
           },
           child: const CsText(text: "Registrieren", size: 20,),
         ),

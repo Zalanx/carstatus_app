@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'swaggerapi.swagger.dart';
+part of 'CarStatusApi.swagger.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator

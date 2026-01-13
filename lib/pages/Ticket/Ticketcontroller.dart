@@ -1,4 +1,5 @@
-import 'package:carstatus_app/swagger/output/swaggerapi.swagger.dart';
+
+import 'package:carstatus_app/swagger/output/CarStatusApi.swagger.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -11,8 +12,9 @@ class Ticketcontroller extends GetxController {
     customerCarController = TextEditingController(text: customerCar.value);
   }
 
-  Swaggerapi api = Swaggerapi.create();
+  CarStatusApi api = CarStatusApi.create();
 
+  Rx<bool> todoStatus = false.obs;
   late Rx selectedCarStatus = ticket.carStatus!.obs;
 
   TicketDto ticket;
@@ -22,7 +24,7 @@ class Ticketcontroller extends GetxController {
 
   late TextEditingController customerNameController;
   late TextEditingController customerCarController;
-  
+
   RxBool isEditingName = false.obs;
   RxBool isEditingCar = false.obs;
 
@@ -35,11 +37,24 @@ class Ticketcontroller extends GetxController {
     customerCar.value = customerCarController.text;
   }
 
+  RxList<String> todos = <String>[].obs;
+
+  void fillTodoList(TicketDto ticket) {
+    ticket.toDos?.forEach((todo) {
+      todos.add(todo);
+      update();
+    });
+
+  }
+
+
   void updateCarStatusTicket(TicketDto ticket) {
     api
         .apiCarStatusUpdateTicketPatch(
           ticketnumber: ticket.ticketnumber!,
           newCarStatus: selectedCarStatus.value,
+          car: customerCar.value,
+          customerName: customerName.value,
         )
         .then((response) {
           if (response.statusCode == 200) {
@@ -62,3 +77,4 @@ class Ticketcontroller extends GetxController {
         });
   }
 }
+

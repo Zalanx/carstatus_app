@@ -9,7 +9,7 @@ class CsButton extends StatelessWidget {
     this.margin,
     this.borderRadius,
     required this.child,
-    this.onTap,
+    this.onTap, this.buttonColor,
   });
 
   final double height;
@@ -19,6 +19,7 @@ class CsButton extends StatelessWidget {
   final BorderRadius? borderRadius;
   final Widget child;
   final GestureTapCallback? onTap;
+  final Color? buttonColor;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +35,6 @@ class CsButton extends StatelessWidget {
           borderRadius: borderRadius ?? BorderRadius.circular(8),
           border: Border.all(
             style: BorderStyle.solid,
-            color: Colors.black,
             width: 2,
           ),
         ),

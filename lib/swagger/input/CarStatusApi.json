@@ -227,6 +227,20 @@
             "schema": {
               "$ref": "#/components/schemas/CarStatusEnum"
             }
+          },
+          {
+            "name": "car",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "customerName",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {

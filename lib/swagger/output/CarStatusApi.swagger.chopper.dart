@@ -1,7 +1,7 @@
 // dart format width=80
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'swaggerapi.swagger.dart';
+part of 'CarStatusApi.swagger.dart';
 
 // **************************************************************************
 // ChopperGenerator
@@ -9,14 +9,14 @@ part of 'swaggerapi.swagger.dart';
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
-final class _$Swaggerapi extends Swaggerapi {
-  _$Swaggerapi([ChopperClient? client]) {
+final class _$CarStatusApi extends CarStatusApi {
+  _$CarStatusApi([ChopperClient? client]) {
     if (client == null) return;
     this.client = client;
   }
 
   @override
-  final Type definitionType = Swaggerapi;
+  final Type definitionType = CarStatusApi;
 
   @override
   Future<Response<List<TicketDto>>> _apiCarStatusGetAllTicketsGet() {
@@ -76,11 +76,15 @@ final class _$Swaggerapi extends Swaggerapi {
   Future<Response<TicketDto>> _apiCarStatusUpdateTicketPatch({
     String? ticketnumber,
     String? newCarStatus,
+    String? car,
+    String? customerName,
   }) {
     final Uri $url = Uri.parse('/api/CarStatus/UpdateTicket');
     final Map<String, dynamic> $params = <String, dynamic>{
       'ticketnumber': ticketnumber,
       'newCarStatus': newCarStatus,
+      'car': car,
+      'customerName': customerName,
     };
     final Request $request = Request(
       'PATCH',
