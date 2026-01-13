@@ -1,1 +1,1 @@
-export 'swaggerapi.swagger.dart' show Swaggerapi;
+export 'CarStatusApi.swagger.dart' show CarStatusApi;

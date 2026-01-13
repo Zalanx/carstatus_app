@@ -16,7 +16,7 @@ class CsText extends StatelessWidget {
                 fontStyle: style ?? FontStyle.italic,
                 fontSize: size ?? 16,
                 fontWeight: fontWeight ?? FontWeight.bold,
-                color: color ?? Colors.black,
+                color: color,
               ),
     );
   }

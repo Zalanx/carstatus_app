@@ -1,6 +1,7 @@
 // ignore_for_file: type=lint
 
 import 'package:json_annotation/json_annotation.dart';
+import 'package:json_annotation/json_annotation.dart' as json;
 import 'package:collection/collection.dart';
 import 'dart:convert';
 
@@ -9,20 +10,21 @@ import 'package:chopper/chopper.dart';
 import 'client_mapping.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
+import 'package:http/http.dart' show MultipartFile;
 import 'package:chopper/chopper.dart' as chopper;
-import 'swaggerapi.enums.swagger.dart' as enums;
-export 'swaggerapi.enums.swagger.dart';
+import 'CarStatusApi.enums.swagger.dart' as enums;
+export 'CarStatusApi.enums.swagger.dart';
 
-part 'swaggerapi.swagger.chopper.dart';
-part 'swaggerapi.swagger.g.dart';
+part 'CarStatusApi.swagger.chopper.dart';
+part 'CarStatusApi.swagger.g.dart';
 
 // **************************************************************************
 // SwaggerChopperGenerator
 // **************************************************************************
 
 @ChopperApi()
-abstract class Swaggerapi extends ChopperService {
-  static Swaggerapi create({
+abstract class CarStatusApi extends ChopperService {
+  static CarStatusApi create({
     ChopperClient? client,
     http.Client? httpClient,
     Authenticator? authenticator,
@@ -32,11 +34,11 @@ abstract class Swaggerapi extends ChopperService {
     List<Interceptor>? interceptors,
   }) {
     if (client != null) {
-      return _$Swaggerapi(client);
+      return _$CarStatusApi(client);
     }
 
     final newClient = ChopperClient(
-      services: [_$Swaggerapi()],
+      services: [_$CarStatusApi()],
       converter: converter ?? $JsonSerializableConverter(),
       interceptors: interceptors ?? [],
       client: httpClient,
@@ -44,7 +46,7 @@ abstract class Swaggerapi extends ChopperService {
       errorConverter: errorConverter,
       baseUrl: baseUrl ?? Uri.parse('http://10.0.2.2:5276'),
     );
-    return _$Swaggerapi(newClient);
+    return _$CarStatusApi(newClient);
   }
 
   ///

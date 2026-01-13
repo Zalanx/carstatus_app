@@ -13,7 +13,7 @@ class CsScaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: backgroundColor ?? Colors.white,
+        backgroundColor: backgroundColor ,
         extendBodyBehindAppBar: true,
         appBar: PreferredSize(
           preferredSize: Size(MediaQuery.sizeOf(context).width, 60),

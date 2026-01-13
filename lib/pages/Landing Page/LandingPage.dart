@@ -63,6 +63,7 @@ class Landingpage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(16),
                   child: CsText(text: "Registrieren",size: 24,),
                 ),
+                
               ],
             ),
           ),
