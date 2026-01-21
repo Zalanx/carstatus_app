@@ -1,7 +1,6 @@
 // ignore_for_file: type=lint
 
 import 'package:json_annotation/json_annotation.dart';
-import 'package:json_annotation/json_annotation.dart' as json;
 import 'package:collection/collection.dart';
 import 'dart:convert';
 
@@ -45,7 +44,7 @@ abstract class CarStatusApi extends ChopperService {
       client: httpClient,
       authenticator: authenticator,
       errorConverter: errorConverter,
-      baseUrl: baseUrl ?? Uri.parse('http://'),
+      baseUrl: baseUrl ?? Uri.parse('http://localhost:5276'),
     );
     return _$CarStatusApi(newClient);
   }

@@ -19,45 +19,41 @@ class LoginPage extends StatelessWidget {
 
 Widget _pageBody(BuildContext context) {
   Ticketlistcontroller controller = Get.find<Ticketlistcontroller>();
-  return SizedBox(
-    height: MediaQuery.sizeOf(context).height,
-    width: MediaQuery.sizeOf(context).width,
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        const Center(
-          child: CsText(text: "Anmelden", size: 32,),
-        ),
-        Column(
-          children: [
-            TextField(
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                labelText: 'Benutzername...',
+  return Column(
+    mainAxisAlignment: MainAxisAlignment.spaceAround,
+    children: [
+      const Center(
+        child: CsText(text: "Anmelden", size: 32,),
+      ),
+      Column(
+        children: [
+          TextField(
+            decoration: InputDecoration(
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
               ),
+              labelText: 'Benutzername...',
             ),
-            const SizedBox(height: 16),
-            TextField(
-              obscureText: true,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                labelText: 'Passwort...',
+          ),
+          const SizedBox(height: 16),
+          TextField(
+            obscureText: true,
+            decoration: InputDecoration(
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
               ),
+              labelText: 'Passwort...',
             ),
-          ],
-        ),
-        ElevatedButton(
-          onPressed: () async {
-            await controller.fetchTickets();
-            Get.to(() => TicketListView());
-          },
-          child: const CsText(text: "Einloggen", size: 20,),
-        ),
-      ],
-    ),
+          ),
+        ],
+      ),
+      ElevatedButton(
+        onPressed: () async {
+          await controller.fetchTickets();
+          Get.to(() => TicketListView());
+        },
+        child: const CsText(text: "Einloggen", size: 20,),
+      ),
+    ],
   );
 }
