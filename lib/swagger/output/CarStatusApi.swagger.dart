@@ -44,7 +44,7 @@ abstract class CarStatusApi extends ChopperService {
       client: httpClient,
       authenticator: authenticator,
       errorConverter: errorConverter,
-      baseUrl: baseUrl ?? Uri.parse('http://localhost:5276'),
+      baseUrl: baseUrl ?? Uri.parse('http://10.0.2.2:5276'),
     );
     return _$CarStatusApi(newClient);
   }

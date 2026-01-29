@@ -1,9 +1,8 @@
 import 'package:carstatus_app/components/cs_appbar.dart';
 import 'package:carstatus_app/components/cs_scaffold.dart';
 import 'package:carstatus_app/components/cs_text.dart';
-import 'package:carstatus_app/pages/Ticket%20list%20view/TicketListController.dart';
+import 'package:carstatus_app/pages/Ticket list view/TicketListController.dart';
 import 'package:carstatus_app/pages/Ticket/Ticket.dart';
-import 'package:carstatus_app/pages/Ticket/Ticketcontroller.dart';
 import 'package:carstatus_app/swagger/output/CarStatusApi.swagger.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -46,13 +45,15 @@ Widget _pageBody(BuildContext context) {
             border: Border.all(color: Colors.black, width: 2),
             borderRadius: BorderRadius.circular(12),
           ),
-          child: ListView(
-            padding: const EdgeInsets.all(12),
-            children: [
-              ...controller.tickets.map(
-                (ticket) => _ticketCard(ticket, context),
-              ),
-            ],
+          child: Obx(
+            () => ListView(
+              padding: const EdgeInsets.all(12),
+              children: [
+                ...controller.tickets.map(
+                  (ticket) => _ticketCard(ticket, context, controller),
+                ),
+              ],
+            ),
           ),
         ),
       ],
@@ -60,13 +61,11 @@ Widget _pageBody(BuildContext context) {
   );
 }
 
-Widget _ticketCard(TicketDto ticket, BuildContext context) {
-  Ticketcontroller controller = Ticketcontroller(ticket: ticket);
+Widget _ticketCard(TicketDto ticket, BuildContext context, Ticketlistcontroller controller) {
   return GestureDetector(
     onTap:
         () => {
           Get.to(() => TicketPage(ticket: ticket)),
-          controller.fillTodoList(ticket),
         },
     child: Container(
       height: 150,
@@ -78,13 +77,13 @@ Widget _ticketCard(TicketDto ticket, BuildContext context) {
         color: Colors.grey[300],
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          CsText(text: ticket.ticketnumber ?? "Keine Ticketnummer"),
-          CsText(text: ticket.car ?? "Kein Auto"),
-          CsText(text: ticket.carStatus?.value ?? "Kein Status"),
-        ],
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            CsText(text: ticket.ticketnumber ?? "Keine Ticketnummer"),
+            CsText(text: ticket.car ?? "Kein Auto"),
+            CsText(text: ticket.carStatus?.value ?? "Kein Status"),
+          ],
+        ),
       ),
-    ),
   );
 }

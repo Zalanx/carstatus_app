@@ -1,4 +1,5 @@
 
+import 'package:carstatus_app/pages/Ticket%20list%20view/TicketListController.dart';
 import 'package:carstatus_app/swagger/output/CarStatusApi.swagger.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -44,12 +45,24 @@ class Ticketcontroller extends GetxController {
       todos.add(todo);
       update();
     });
-
   }
+  
 
 
-  void updateCarStatusTicket(TicketDto ticket) {
-    api
+  Future<void> updateCarStatusTicket(TicketDto ticket) async {
+    Ticketlistcontroller ticketListController = Get.find<Ticketlistcontroller>();
+
+
+              var updatedTicket = TicketDto(
+              ticketnumber: ticket.ticketnumber,
+              carStatus: selectedCarStatus.value,
+              car: customerCar.value,
+              customerName: customerName.value,
+              toDos: ticket.toDos,
+            );
+            ticketListController.updateTicket(updatedTicket);
+
+    await api
         .apiCarStatusUpdateTicketPatch(
           ticketnumber: ticket.ticketnumber!,
           newCarStatus: selectedCarStatus.value,
@@ -64,6 +77,7 @@ class Ticketcontroller extends GetxController {
               snackPosition: SnackPosition.BOTTOM,
               backgroundColor: Colors.green,
               colorText: Colors.white,
+              margin: EdgeInsets.all(16),
             );
           } else {
             Get.snackbar(
