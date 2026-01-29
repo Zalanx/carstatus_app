@@ -4,5 +4,5 @@ class Customerviewcontroller extends GetxController {
 
 
 
-  
+
 }
