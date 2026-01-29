@@ -55,14 +55,20 @@ Map<String, dynamic> _$TicketDtoToJson(TicketDto instance) => <String, dynamic>{
   'toDos': instance.toDos,
 };
 
+ToDoDto _$ToDoDtoFromJson(Map<String, dynamic> json) =>
+    ToDoDto(task: json['task'] as String?, done: json['done'] as bool);
+
+Map<String, dynamic> _$ToDoDtoToJson(ToDoDto instance) => <String, dynamic>{
+  'task': instance.task,
+  'done': instance.done,
+};
+
 UserDto _$UserDtoFromJson(Map<String, dynamic> json) => UserDto(
-  customerName: json['customerName'] as String?,
   username: json['username'] as String?,
   password: json['password'] as String?,
 );
 
 Map<String, dynamic> _$UserDtoToJson(UserDto instance) => <String, dynamic>{
-  'customerName': instance.customerName,
   'username': instance.username,
   'password': instance.password,
 };

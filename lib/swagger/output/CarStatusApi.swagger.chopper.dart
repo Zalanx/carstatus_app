@@ -78,6 +78,7 @@ final class _$CarStatusApi extends CarStatusApi {
     String? newCarStatus,
     String? car,
     String? customerName,
+    required List<ToDoDto>? body,
   }) {
     final Uri $url = Uri.parse('/api/CarStatus/UpdateTicket');
     final Map<String, dynamic> $params = <String, dynamic>{
@@ -86,10 +87,12 @@ final class _$CarStatusApi extends CarStatusApi {
       'car': car,
       'customerName': customerName,
     };
+    final $body = body;
     final Request $request = Request(
       'PATCH',
       $url,
       client.baseUrl,
+      body: $body,
       parameters: $params,
     );
     return client.send<TicketDto, TicketDto>($request);

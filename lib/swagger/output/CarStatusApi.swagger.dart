@@ -1,6 +1,7 @@
 // ignore_for_file: type=lint
 
 import 'package:json_annotation/json_annotation.dart';
+import 'package:json_annotation/json_annotation.dart' as json;
 import 'package:collection/collection.dart';
 import 'dart:convert';
 
@@ -9,7 +10,6 @@ import 'package:chopper/chopper.dart';
 import 'client_mapping.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
-// ignore: unused_import
 import 'package:http/http.dart' show MultipartFile;
 import 'package:chopper/chopper.dart' as chopper;
 import 'CarStatusApi.enums.swagger.dart' as enums;
@@ -130,6 +130,7 @@ abstract class CarStatusApi extends ChopperService {
     enums.CarStatusEnum? newCarStatus,
     String? car,
     String? customerName,
+    required List<ToDoDto>? body,
   }) {
     generatedMapping.putIfAbsent(TicketDto, () => TicketDto.fromJsonFactory);
 
@@ -138,6 +139,7 @@ abstract class CarStatusApi extends ChopperService {
       newCarStatus: newCarStatus?.value?.toString(),
       car: car,
       customerName: customerName,
+      body: body,
     );
   }
 
@@ -152,6 +154,7 @@ abstract class CarStatusApi extends ChopperService {
     @Query('newCarStatus') String? newCarStatus,
     @Query('car') String? car,
     @Query('customerName') String? customerName,
+    @Body() required List<ToDoDto>? body,
   });
 }
 
@@ -443,8 +446,57 @@ extension $TicketDtoExtension on TicketDto {
 }
 
 @JsonSerializable(explicitToJson: true)
+class ToDoDto {
+  const ToDoDto({this.task, required this.done});
+
+  factory ToDoDto.fromJson(Map<String, dynamic> json) =>
+      _$ToDoDtoFromJson(json);
+
+  static const toJsonFactory = _$ToDoDtoToJson;
+  Map<String, dynamic> toJson() => _$ToDoDtoToJson(this);
+
+  @JsonKey(name: 'task')
+  final String? task;
+  @JsonKey(name: 'done')
+  final bool done;
+  static const fromJsonFactory = _$ToDoDtoFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is ToDoDto &&
+            (identical(other.task, task) ||
+                const DeepCollectionEquality().equals(other.task, task)) &&
+            (identical(other.done, done) ||
+                const DeepCollectionEquality().equals(other.done, done)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(task) ^
+      const DeepCollectionEquality().hash(done) ^
+      runtimeType.hashCode;
+}
+
+extension $ToDoDtoExtension on ToDoDto {
+  ToDoDto copyWith({String? task, bool? done}) {
+    return ToDoDto(task: task ?? this.task, done: done ?? this.done);
+  }
+
+  ToDoDto copyWithWrapped({Wrapped<String?>? task, Wrapped<bool>? done}) {
+    return ToDoDto(
+      task: (task != null ? task.value : this.task),
+      done: (done != null ? done.value : this.done),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class UserDto {
-  const UserDto({this.customerName, this.username, this.password});
+  const UserDto({this.username, this.password});
 
   factory UserDto.fromJson(Map<String, dynamic> json) =>
       _$UserDtoFromJson(json);
@@ -452,8 +504,6 @@ class UserDto {
   static const toJsonFactory = _$UserDtoToJson;
   Map<String, dynamic> toJson() => _$UserDtoToJson(this);
 
-  @JsonKey(name: 'customerName')
-  final String? customerName;
   @JsonKey(name: 'username')
   final String? username;
   @JsonKey(name: 'password')
@@ -464,11 +514,6 @@ class UserDto {
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other is UserDto &&
-            (identical(other.customerName, customerName) ||
-                const DeepCollectionEquality().equals(
-                  other.customerName,
-                  customerName,
-                )) &&
             (identical(other.username, username) ||
                 const DeepCollectionEquality().equals(
                   other.username,
@@ -486,30 +531,24 @@ class UserDto {
 
   @override
   int get hashCode =>
-      const DeepCollectionEquality().hash(customerName) ^
       const DeepCollectionEquality().hash(username) ^
       const DeepCollectionEquality().hash(password) ^
       runtimeType.hashCode;
 }
 
 extension $UserDtoExtension on UserDto {
-  UserDto copyWith({String? customerName, String? username, String? password}) {
+  UserDto copyWith({String? username, String? password}) {
     return UserDto(
-      customerName: customerName ?? this.customerName,
       username: username ?? this.username,
       password: password ?? this.password,
     );
   }
 
   UserDto copyWithWrapped({
-    Wrapped<String?>? customerName,
     Wrapped<String?>? username,
     Wrapped<String?>? password,
   }) {
     return UserDto(
-      customerName: (customerName != null
-          ? customerName.value
-          : this.customerName),
       username: (username != null ? username.value : this.username),
       password: (password != null ? password.value : this.password),
     );
