@@ -18,7 +18,6 @@ class Registrationcontroller extends GetxController {
     final registrationBody = UserDto(
       username: registrationUsername.text,
       password: registrationPassword.text,
-      customerName: registrationCustomerName.text,
     );
 
     api.apiCarStatusRegisterUserPost(body: registrationBody);

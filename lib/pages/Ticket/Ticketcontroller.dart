@@ -38,17 +38,14 @@ class Ticketcontroller extends GetxController {
     customerCar.value = customerCarController.text;
   }
 
-  RxList<String> todos = <String>[].obs;
+  RxList<ToDoDto> todos = <ToDoDto>[].obs;
 
-  void fillTodoList(TicketDto ticket) {
-    ticket.toDos?.forEach((todo) {
-      todos.add(todo);
-      update();
-    });
-  }
+
+  Future<void> fetchTodos(TicketDto ticket) async {
   
-
-
+    
+  }
+ 
   Future<void> updateCarStatusTicket(TicketDto ticket) async {
     Ticketlistcontroller ticketListController = Get.find<Ticketlistcontroller>();
 
@@ -68,6 +65,7 @@ class Ticketcontroller extends GetxController {
           newCarStatus: selectedCarStatus.value,
           car: customerCar.value,
           customerName: customerName.value,
+          body: todos,
         )
         .then((response) {
           if (response.statusCode == 200) {

@@ -1,6 +1,5 @@
 import 'package:carstatus_app/components/cs_appbar.dart';
 import 'package:carstatus_app/components/cs_scaffold.dart';
-import 'package:carstatus_app/components/cs_text.dart';
 import 'package:flutter/material.dart';
 
 class CustomerViewPage extends StatelessWidget {

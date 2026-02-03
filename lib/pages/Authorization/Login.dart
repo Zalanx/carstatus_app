@@ -4,7 +4,6 @@ import 'package:carstatus_app/components/cs_text.dart';
 import 'package:carstatus_app/pages/Authorization/LoginController.dart';
 import 'package:carstatus_app/pages/Ticket%20list%20view/TicketListController.dart';
 import 'package:carstatus_app/pages/Ticket%20list%20view/TicketListPage.dart';
-import 'package:carstatus_app/swagger/output/CarStatusApi.swagger.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -52,6 +51,7 @@ Widget _pageBody(BuildContext context) {
       ),
       ElevatedButton(
         onPressed: () async {
+          Ticketlistcontroller ticketlistcontroller = Get.find<Ticketlistcontroller>();
           // await logincontroller.handleLogin(
           //   UserDto(
           //     customerName: logincontroller.usernameController.text,
@@ -59,8 +59,8 @@ Widget _pageBody(BuildContext context) {
           //   ),
           // );
 
+          await ticketlistcontroller.fetchTickets();
           Get.to(() => TicketListView());
-          await Ticketlistcontroller().fetchTickets();
         },
         child: const CsText(text: "Einloggen", size: 20),
       ),
