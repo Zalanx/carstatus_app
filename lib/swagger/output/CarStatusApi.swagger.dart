@@ -1,6 +1,7 @@
 // ignore_for_file: type=lint
 
 import 'package:json_annotation/json_annotation.dart';
+import 'package:json_annotation/json_annotation.dart' as json;
 import 'package:collection/collection.dart';
 import 'dart:convert';
 
@@ -9,6 +10,7 @@ import 'package:chopper/chopper.dart';
 import 'client_mapping.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
+import 'package:http/http.dart' show MultipartFile;
 import 'package:chopper/chopper.dart' as chopper;
 import 'CarStatusApi.enums.swagger.dart' as enums;
 export 'CarStatusApi.enums.swagger.dart';
@@ -181,8 +183,8 @@ class CreateTicketDto {
     fromJson: carStatusEnumNullableFromJson,
   )
   final enums.CarStatusEnum? carStatus;
-  @JsonKey(name: 'toDos', defaultValue: <String>[])
-  final List<String>? toDos;
+  @JsonKey(name: 'toDos', defaultValue: <ToDoDto>[])
+  final List<ToDoDto>? toDos;
   static const fromJsonFactory = _$CreateTicketDtoFromJson;
 
   @override
@@ -222,7 +224,7 @@ extension $CreateTicketDtoExtension on CreateTicketDto {
     String? customerName,
     String? car,
     enums.CarStatusEnum? carStatus,
-    List<String>? toDos,
+    List<ToDoDto>? toDos,
   }) {
     return CreateTicketDto(
       customerName: customerName ?? this.customerName,
@@ -236,7 +238,7 @@ extension $CreateTicketDtoExtension on CreateTicketDto {
     Wrapped<String?>? customerName,
     Wrapped<String?>? car,
     Wrapped<enums.CarStatusEnum?>? carStatus,
-    Wrapped<List<String>?>? toDos,
+    Wrapped<List<ToDoDto>?>? toDos,
   }) {
     return CreateTicketDto(
       customerName: (customerName != null
@@ -363,8 +365,8 @@ class TicketDto {
     fromJson: carStatusEnumNullableFromJson,
   )
   final enums.CarStatusEnum? carStatus;
-  @JsonKey(name: 'toDos', defaultValue: <String>[])
-  final List<String>? toDos;
+  @JsonKey(name: 'toDos', defaultValue: <ToDoDto>[])
+  final List<ToDoDto>? toDos;
   static const fromJsonFactory = _$TicketDtoFromJson;
 
   @override
@@ -411,7 +413,7 @@ extension $TicketDtoExtension on TicketDto {
     String? customerName,
     String? car,
     enums.CarStatusEnum? carStatus,
-    List<String>? toDos,
+    List<ToDoDto>? toDos,
   }) {
     return TicketDto(
       ticketnumber: ticketnumber ?? this.ticketnumber,
@@ -427,7 +429,7 @@ extension $TicketDtoExtension on TicketDto {
     Wrapped<String?>? customerName,
     Wrapped<String?>? car,
     Wrapped<enums.CarStatusEnum?>? carStatus,
-    Wrapped<List<String>?>? toDos,
+    Wrapped<List<ToDoDto>?>? toDos,
   }) {
     return TicketDto(
       ticketnumber: (ticketnumber != null

@@ -1,4 +1,3 @@
-
 import 'package:carstatus_app/pages/Ticket%20list%20view/TicketListController.dart';
 import 'package:carstatus_app/swagger/output/CarStatusApi.swagger.dart';
 import 'package:flutter/material.dart';
@@ -33,6 +32,7 @@ class Ticketcontroller extends GetxController {
     isEditingName.value = !isEditingName.value;
     customerName.value = customerNameController.text;
   }
+
   void toggleCarEditing() {
     isEditingCar.value = !isEditingCar.value;
     customerCar.value = customerCarController.text;
@@ -40,24 +40,26 @@ class Ticketcontroller extends GetxController {
 
   RxList<ToDoDto> todos = <ToDoDto>[].obs;
 
-
   Future<void> fetchTodos(TicketDto ticket) async {
-  
-    
+    var response = await api.apiCarStatusGetTicketByIdGet(
+      ticketId: ticket.ticketnumber,
+    );
+
+    todos = response.body!.toDos!.obs;
   }
- 
+
   Future<void> updateCarStatusTicket(TicketDto ticket) async {
-    Ticketlistcontroller ticketListController = Get.find<Ticketlistcontroller>();
+    Ticketlistcontroller ticketListController =
+        Get.find<Ticketlistcontroller>();
 
-
-              var updatedTicket = TicketDto(
-              ticketnumber: ticket.ticketnumber,
-              carStatus: selectedCarStatus.value,
-              car: customerCar.value,
-              customerName: customerName.value,
-              toDos: ticket.toDos,
-            );
-            ticketListController.updateTicket(updatedTicket);
+    var updatedTicket = TicketDto(
+      ticketnumber: ticket.ticketnumber,
+      carStatus: selectedCarStatus.value,
+      car: customerCar.value,
+      customerName: customerName.value,
+      toDos: ticket.toDos,
+    );
+    ticketListController.updateTicket(updatedTicket);
 
     await api
         .apiCarStatusUpdateTicketPatch(
@@ -65,7 +67,7 @@ class Ticketcontroller extends GetxController {
           newCarStatus: selectedCarStatus.value,
           car: customerCar.value,
           customerName: customerName.value,
-          body: todos,
+          body: ticket.toDos,
         )
         .then((response) {
           if (response.statusCode == 200) {
@@ -89,4 +91,3 @@ class Ticketcontroller extends GetxController {
         });
   }
 }
-

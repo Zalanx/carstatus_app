@@ -188,7 +188,7 @@ class TicketPage extends StatelessWidget {
   }
 }
 
-Widget _todoElement(TicketDto ticket, String todo) {
+Widget _todoElement(TicketDto ticket, ToDoDto todo) {
   Ticketcontroller controller = Ticketcontroller(ticket: ticket);
   return Expanded(
     child: Row(
@@ -200,7 +200,7 @@ Widget _todoElement(TicketDto ticket, String todo) {
             onChanged: (newValue) => controller.todoStatus.value = newValue!,
           ),
         ),
-        CsText(text: todo, size: 20),
+        CsText(text: todo.task!, size: 20),
       ],
     ),
   );

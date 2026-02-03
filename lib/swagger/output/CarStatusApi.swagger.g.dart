@@ -12,7 +12,9 @@ CreateTicketDto _$CreateTicketDtoFromJson(Map<String, dynamic> json) =>
       car: json['car'] as String?,
       carStatus: carStatusEnumNullableFromJson(json['carStatus']),
       toDos:
-          (json['toDos'] as List<dynamic>?)?.map((e) => e as String).toList() ??
+          (json['toDos'] as List<dynamic>?)
+              ?.map((e) => ToDoDto.fromJson(e as Map<String, dynamic>))
+              .toList() ??
           [],
     );
 
@@ -21,7 +23,7 @@ Map<String, dynamic> _$CreateTicketDtoToJson(CreateTicketDto instance) =>
       'customerName': instance.customerName,
       'car': instance.car,
       'carStatus': carStatusEnumNullableToJson(instance.carStatus),
-      'toDos': instance.toDos,
+      'toDos': instance.toDos?.map((e) => e.toJson()).toList(),
     };
 
 DbUser _$DbUserFromJson(Map<String, dynamic> json) => DbUser(
@@ -44,7 +46,10 @@ TicketDto _$TicketDtoFromJson(Map<String, dynamic> json) => TicketDto(
   car: json['car'] as String?,
   carStatus: carStatusEnumNullableFromJson(json['carStatus']),
   toDos:
-      (json['toDos'] as List<dynamic>?)?.map((e) => e as String).toList() ?? [],
+      (json['toDos'] as List<dynamic>?)
+          ?.map((e) => ToDoDto.fromJson(e as Map<String, dynamic>))
+          .toList() ??
+      [],
 );
 
 Map<String, dynamic> _$TicketDtoToJson(TicketDto instance) => <String, dynamic>{
@@ -52,7 +57,7 @@ Map<String, dynamic> _$TicketDtoToJson(TicketDto instance) => <String, dynamic>{
   'customerName': instance.customerName,
   'car': instance.car,
   'carStatus': carStatusEnumNullableToJson(instance.carStatus),
-  'toDos': instance.toDos,
+  'toDos': instance.toDos?.map((e) => e.toJson()).toList(),
 };
 
 ToDoDto _$ToDoDtoFromJson(Map<String, dynamic> json) =>

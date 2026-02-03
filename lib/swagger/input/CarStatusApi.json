@@ -328,7 +328,7 @@
           "toDos": {
             "type": "array",
             "items": {
-              "type": "string"
+              "$ref": "#/components/schemas/ToDoDto"
             },
             "nullable": true
           }
@@ -389,7 +389,7 @@
           "toDos": {
             "type": "array",
             "items": {
-              "type": "string"
+              "$ref": "#/components/schemas/ToDoDto"
             },
             "nullable": true
           }
