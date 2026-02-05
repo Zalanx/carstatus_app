@@ -1,9 +1,10 @@
 import 'package:carstatus_app/components/cs_appbar.dart';
+import 'package:carstatus_app/components/cs_container.dart';
 import 'package:carstatus_app/components/cs_scaffold.dart';
 import 'package:carstatus_app/components/cs_text.dart';
 import 'package:carstatus_app/pages/Authorization/LoginController.dart';
-import 'package:carstatus_app/pages/Ticket%20list%20view/TicketListController.dart';
-import 'package:carstatus_app/pages/Ticket%20list%20view/TicketListPage.dart';
+import 'package:carstatus_app/pages/Ticket%20list/TicketListController.dart';
+import 'package:carstatus_app/pages/Ticket%20list/TicketListPage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -24,7 +25,7 @@ Widget _pageBody(BuildContext context) {
   return Column(
     mainAxisAlignment: MainAxisAlignment.spaceAround,
     children: [
-      const Center(child: CsText(text: "Anmelden", size: 32)),
+     Center(child: CsContainer(child: CsText(text: "Anmelden", size: 32))),
       Column(
         children: [
           TextField(

@@ -1,7 +1,9 @@
 import 'package:carstatus_app/components/cs_appbar.dart';
+import 'package:carstatus_app/components/cs_container.dart';
 import 'package:carstatus_app/components/cs_scaffold.dart';
 import 'package:carstatus_app/components/cs_text.dart';
-import 'package:carstatus_app/pages/Ticket list view/TicketListController.dart';
+import 'package:carstatus_app/pages/Ticketcreation/TicketCreation.dart';
+import 'package:carstatus_app/pages/Ticket%20list/TicketListController.dart';
 import 'package:carstatus_app/pages/Ticket/Ticket.dart';
 import 'package:carstatus_app/swagger/output/CarStatusApi.swagger.dart';
 import 'package:flutter/material.dart';
@@ -27,9 +29,11 @@ Widget _pageBody(BuildContext context) {
     child: Column(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        const Center(child: CsText(text: "Verfügbare Tickets", size: 34)),
+        Center(
+          child: CsContainer(child: CsText(text: "Verfügbare Tickets", size: 34)),
+        ),
         ElevatedButton(
-          onPressed:() => {},
+          onPressed: () => Get.to(() => TicketCreationPage()),
           style: ButtonStyle(
             backgroundColor: WidgetStateProperty.all(Colors.blueAccent),
           ),
@@ -44,6 +48,7 @@ Widget _pageBody(BuildContext context) {
           decoration: BoxDecoration(
             border: Border.all(color: Colors.black, width: 2),
             borderRadius: BorderRadius.circular(12),
+            color: Colors.redAccent[100],
           ),
           child: Obx(
             () => ListView(
@@ -61,12 +66,16 @@ Widget _pageBody(BuildContext context) {
   );
 }
 
-Widget _ticketCard(TicketDto ticket, BuildContext context, Ticketlistcontroller controller) {
+Widget _ticketCard(
+  TicketDto ticket,
+  BuildContext context,
+  Ticketlistcontroller controller,
+) {
   return GestureDetector(
-    onTap:
-        () => {
-          Get.to(() => TicketPage(ticket: ticket)),
-        },
+    onTap: () async {
+      await controller.fetchTodos(ticket.ticketnumber!);
+      Get.to(() => TicketPage(ticket: ticket));
+    },
     child: Container(
       height: 150,
       width: MediaQuery.sizeOf(context).width * 0.9,
@@ -77,13 +86,13 @@ Widget _ticketCard(TicketDto ticket, BuildContext context, Ticketlistcontroller 
         color: Colors.grey[300],
       ),
       child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            CsText(text: ticket.ticketnumber ?? "Keine Ticketnummer"),
-            CsText(text: ticket.car ?? "Kein Auto"),
-            CsText(text: ticket.carStatus?.value ?? "Kein Status"),
-          ],
-        ),
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          CsText(text: ticket.ticketnumber ?? "Keine Ticketnummer"),
+          CsText(text: ticket.car ?? "Kein Auto"),
+          CsText(text: ticket.carStatus?.value ?? "Kein Status"),
+        ],
       ),
+    ),
   );
 }

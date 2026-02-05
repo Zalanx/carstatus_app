@@ -1,8 +1,9 @@
 
 import 'package:carstatus_app/helper/Themehelper.dart';
 import 'package:carstatus_app/pages/Authorization/LoginController.dart';
+import 'package:carstatus_app/pages/Ticketcreation/TicketcreationController.dart';
 import 'package:carstatus_app/pages/Landing%20Page/LandingPage.dart';
-import 'package:carstatus_app/pages/Ticket%20list%20view/TicketListController.dart';
+import 'package:carstatus_app/pages/Ticket%20list/TicketListController.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -26,10 +27,12 @@ void putControllers() {
   Get.put(ThemeHelper());
   Get.put(Ticketlistcontroller());
   Get.put(Logincontroller());
+  Get.put(TicketCreationController());
 }
 
 void setControllers() {
   Get.find<ThemeHelper>();
   Get.find<Ticketlistcontroller>();
   Get.find<Logincontroller>();
+  Get.find<TicketCreationController>();
 }

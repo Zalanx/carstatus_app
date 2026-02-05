@@ -1,4 +1,4 @@
-import 'package:carstatus_app/pages/Ticket%20list%20view/TicketListController.dart';
+import 'package:carstatus_app/pages/Ticket%20list/TicketListController.dart';
 import 'package:carstatus_app/swagger/output/CarStatusApi.swagger.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -67,7 +67,7 @@ class Ticketcontroller extends GetxController {
           newCarStatus: selectedCarStatus.value,
           car: customerCar.value,
           customerName: customerName.value,
-          body: ticket.toDos,
+          body: todos,
         )
         .then((response) {
           if (response.statusCode == 200) {
