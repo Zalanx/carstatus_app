@@ -9,8 +9,8 @@ class TicketCreationController extends GetxController {
 
   final TextEditingController todosController = TextEditingController();
 
-  final TextEditingController customerNameController = TextEditingController();
-  final TextEditingController customerCarController = TextEditingController();
+  late TextEditingController customerNameController;
+  late TextEditingController customerCarController;
 
   Future<void> handleCreateTicket() async {
     Ticketlistcontroller ticketlistcontroller = Get.find();
