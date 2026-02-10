@@ -1,3 +1,4 @@
+import 'package:carstatus_app/pages/Authorization/LoginController.dart';
 import 'package:carstatus_app/pages/Ticket%20list/TicketListController.dart';
 import 'package:carstatus_app/pages/Ticket%20list/TicketListPage.dart';
 import 'package:carstatus_app/swagger/output/CarStatusApi.swagger.dart';
@@ -9,8 +10,9 @@ class TicketCreationController extends GetxController {
 
   final TextEditingController todosController = TextEditingController();
 
-  late TextEditingController customerNameController;
-  late TextEditingController customerCarController;
+  final TextEditingController customerNameController = TextEditingController();
+  final TextEditingController customerCarController = TextEditingController();
+  final TextEditingController usernameController = TextEditingController();
 
   Future<void> handleCreateTicket() async {
     Ticketlistcontroller ticketlistcontroller = Get.find();
@@ -21,8 +23,11 @@ class TicketCreationController extends GetxController {
             .where((t) => t.isNotEmpty)
             .toList();
 
+    var userid = await api.apiCarStatusGetUserIdByUsernameGet(username: usernameController.text);
+
     await api.apiCarStatusCreateTicketPost(
       body: CreateTicketDto(
+        userId: userid.body!,
         customerName: customerNameController.text,
         car: customerCarController.text,
         carStatus: CarStatusEnum.warteschlange,

@@ -43,6 +43,38 @@ final class _$CarStatusApi extends CarStatusApi {
   }
 
   @override
+  Future<Response<List<TicketDto>>> _apiCarStatusGetTicketsForUserByIdGet({
+    int? userId,
+  }) {
+    final Uri $url = Uri.parse('/api/CarStatus/GetTicketsForUserById');
+    final Map<String, dynamic> $params = <String, dynamic>{'userId': userId};
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+    );
+    return client.send<List<TicketDto>, TicketDto>($request);
+  }
+
+  @override
+  Future<Response<int>> _apiCarStatusGetUserIdByUsernameGet({
+    String? username,
+  }) {
+    final Uri $url = Uri.parse('/api/CarStatus/GetUserIdByUsername');
+    final Map<String, dynamic> $params = <String, dynamic>{
+      'username': username,
+    };
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+      parameters: $params,
+    );
+    return client.send<int, int>($request);
+  }
+
+  @override
   Future<Response<TicketDto>> _apiCarStatusCreateTicketPost({
     required CreateTicketDto? body,
   }) {

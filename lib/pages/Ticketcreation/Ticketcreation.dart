@@ -35,6 +35,16 @@ Widget _pageBody(BuildContext context) {
       Column(
         children: [
           TextField(
+            controller: controller.usernameController,
+            decoration: InputDecoration(
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              labelText: 'Benutzername...',
+            ),
+          ),
+          const SizedBox(height: 32),
+          TextField(
             controller: controller.customerNameController,
             decoration: InputDecoration(
               border: OutlineInputBorder(

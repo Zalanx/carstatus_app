@@ -81,6 +81,95 @@
         }
       }
     },
+    "/api/CarStatus/GetTicketsForUserById": {
+      "get": {
+        "tags": [
+          "CarStatus"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TicketDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TicketDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TicketDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/CarStatus/GetUserIdByUsername": {
+      "get": {
+        "tags": [
+          "CarStatus"
+        ],
+        "parameters": [
+          {
+            "name": "username",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/CarStatus/CreateTicket": {
       "post": {
         "tags": [
@@ -310,10 +399,15 @@
         "required": [
           "car",
           "customerName",
-          "toDos"
+          "toDos",
+          "userId"
         ],
         "type": "object",
         "properties": {
+          "userId": {
+            "type": "integer",
+            "format": "int32"
+          },
           "customerName": {
             "type": "string",
             "nullable": true
@@ -331,6 +425,84 @@
               "$ref": "#/components/schemas/ToDoDto"
             },
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "DbTicket": {
+        "required": [
+          "car",
+          "carStatus",
+          "customerName",
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "ticketnumber": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "userId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "customerName": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string"
+          },
+          "car": {
+            "maxLength": 30,
+            "minLength": 0,
+            "type": "string"
+          },
+          "carStatus": {
+            "$ref": "#/components/schemas/CarStatusEnum"
+          },
+          "toDos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DbToDos"
+            },
+            "nullable": true
+          },
+          "user": {
+            "$ref": "#/components/schemas/DbUser"
+          }
+        },
+        "additionalProperties": false
+      },
+      "DbToDos": {
+        "required": [
+          "done",
+          "id",
+          "todo"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "todo": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "done": {
+            "type": "boolean"
+          },
+          "dbTicketId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "ticket": {
+            "$ref": "#/components/schemas/DbTicket"
           }
         },
         "additionalProperties": false
@@ -359,6 +531,13 @@
           },
           "isAdmin": {
             "type": "boolean"
+          },
+          "tickets": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DbTicket"
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -367,12 +546,18 @@
         "required": [
           "car",
           "customerName",
-          "toDos"
+          "toDos",
+          "userId"
         ],
         "type": "object",
         "properties": {
           "ticketnumber": {
             "type": "string",
+            "nullable": true
+          },
+          "userId": {
+            "type": "integer",
+            "format": "int32",
             "nullable": true
           },
           "customerName": {
@@ -420,6 +605,10 @@
         ],
         "type": "object",
         "properties": {
+          "customerName": {
+            "type": "string",
+            "nullable": true
+          },
           "username": {
             "type": "string",
             "nullable": true

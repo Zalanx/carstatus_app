@@ -1,6 +1,7 @@
 // ignore_for_file: type=lint
 
 import 'package:json_annotation/json_annotation.dart';
+import 'package:json_annotation/json_annotation.dart' as json;
 import 'package:collection/collection.dart';
 import 'dart:convert';
 
@@ -9,6 +10,7 @@ import 'package:chopper/chopper.dart';
 import 'client_mapping.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
+import 'package:http/http.dart' show MultipartFile;
 import 'package:chopper/chopper.dart' as chopper;
 import 'CarStatusApi.enums.swagger.dart' as enums;
 export 'CarStatusApi.enums.swagger.dart';
@@ -73,6 +75,36 @@ abstract class CarStatusApi extends ChopperService {
   @GET(path: '/api/CarStatus/GetTicketById')
   Future<chopper.Response<TicketDto>> _apiCarStatusGetTicketByIdGet({
     @Query('ticketId') String? ticketId,
+  });
+
+  ///
+  ///@param userId
+  Future<chopper.Response<List<TicketDto>>>
+  apiCarStatusGetTicketsForUserByIdGet({int? userId}) {
+    generatedMapping.putIfAbsent(TicketDto, () => TicketDto.fromJsonFactory);
+
+    return _apiCarStatusGetTicketsForUserByIdGet(userId: userId);
+  }
+
+  ///
+  ///@param userId
+  @GET(path: '/api/CarStatus/GetTicketsForUserById')
+  Future<chopper.Response<List<TicketDto>>>
+  _apiCarStatusGetTicketsForUserByIdGet({@Query('userId') int? userId});
+
+  ///
+  ///@param username
+  Future<chopper.Response<int>> apiCarStatusGetUserIdByUsernameGet({
+    String? username,
+  }) {
+    return _apiCarStatusGetUserIdByUsernameGet(username: username);
+  }
+
+  ///
+  ///@param username
+  @GET(path: '/api/CarStatus/GetUserIdByUsername')
+  Future<chopper.Response<int>> _apiCarStatusGetUserIdByUsernameGet({
+    @Query('username') String? username,
   });
 
   ///
@@ -159,6 +191,7 @@ abstract class CarStatusApi extends ChopperService {
 @JsonSerializable(explicitToJson: true)
 class CreateTicketDto {
   const CreateTicketDto({
+    required this.userId,
     this.customerName,
     this.car,
     this.carStatus,
@@ -171,6 +204,8 @@ class CreateTicketDto {
   static const toJsonFactory = _$CreateTicketDtoToJson;
   Map<String, dynamic> toJson() => _$CreateTicketDtoToJson(this);
 
+  @JsonKey(name: 'userId')
+  final int userId;
   @JsonKey(name: 'customerName')
   final String? customerName;
   @JsonKey(name: 'car')
@@ -189,6 +224,8 @@ class CreateTicketDto {
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other is CreateTicketDto &&
+            (identical(other.userId, userId) ||
+                const DeepCollectionEquality().equals(other.userId, userId)) &&
             (identical(other.customerName, customerName) ||
                 const DeepCollectionEquality().equals(
                   other.customerName,
@@ -210,6 +247,7 @@ class CreateTicketDto {
 
   @override
   int get hashCode =>
+      const DeepCollectionEquality().hash(userId) ^
       const DeepCollectionEquality().hash(customerName) ^
       const DeepCollectionEquality().hash(car) ^
       const DeepCollectionEquality().hash(carStatus) ^
@@ -219,12 +257,14 @@ class CreateTicketDto {
 
 extension $CreateTicketDtoExtension on CreateTicketDto {
   CreateTicketDto copyWith({
+    int? userId,
     String? customerName,
     String? car,
     enums.CarStatusEnum? carStatus,
     List<ToDoDto>? toDos,
   }) {
     return CreateTicketDto(
+      userId: userId ?? this.userId,
       customerName: customerName ?? this.customerName,
       car: car ?? this.car,
       carStatus: carStatus ?? this.carStatus,
@@ -233,12 +273,14 @@ extension $CreateTicketDtoExtension on CreateTicketDto {
   }
 
   CreateTicketDto copyWithWrapped({
+    Wrapped<int>? userId,
     Wrapped<String?>? customerName,
     Wrapped<String?>? car,
     Wrapped<enums.CarStatusEnum?>? carStatus,
     Wrapped<List<ToDoDto>?>? toDos,
   }) {
     return CreateTicketDto(
+      userId: (userId != null ? userId.value : this.userId),
       customerName: (customerName != null
           ? customerName.value
           : this.customerName),
@@ -250,12 +292,245 @@ extension $CreateTicketDtoExtension on CreateTicketDto {
 }
 
 @JsonSerializable(explicitToJson: true)
+class DbTicket {
+  const DbTicket({
+    required this.id,
+    this.ticketnumber,
+    this.userId,
+    required this.customerName,
+    required this.car,
+    required this.carStatus,
+    this.toDos,
+    this.user,
+  });
+
+  factory DbTicket.fromJson(Map<String, dynamic> json) =>
+      _$DbTicketFromJson(json);
+
+  static const toJsonFactory = _$DbTicketToJson;
+  Map<String, dynamic> toJson() => _$DbTicketToJson(this);
+
+  @JsonKey(name: 'id')
+  final int id;
+  @JsonKey(name: 'ticketnumber')
+  final String? ticketnumber;
+  @JsonKey(name: 'userId')
+  final int? userId;
+  @JsonKey(name: 'customerName')
+  final String customerName;
+  @JsonKey(name: 'car')
+  final String car;
+  @JsonKey(
+    name: 'carStatus',
+    toJson: carStatusEnumToJson,
+    fromJson: carStatusEnumFromJson,
+  )
+  final enums.CarStatusEnum carStatus;
+  @JsonKey(name: 'toDos', defaultValue: <DbToDos>[])
+  final List<DbToDos>? toDos;
+  @JsonKey(name: 'user')
+  final DbUser? user;
+  static const fromJsonFactory = _$DbTicketFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is DbTicket &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.ticketnumber, ticketnumber) ||
+                const DeepCollectionEquality().equals(
+                  other.ticketnumber,
+                  ticketnumber,
+                )) &&
+            (identical(other.userId, userId) ||
+                const DeepCollectionEquality().equals(other.userId, userId)) &&
+            (identical(other.customerName, customerName) ||
+                const DeepCollectionEquality().equals(
+                  other.customerName,
+                  customerName,
+                )) &&
+            (identical(other.car, car) ||
+                const DeepCollectionEquality().equals(other.car, car)) &&
+            (identical(other.carStatus, carStatus) ||
+                const DeepCollectionEquality().equals(
+                  other.carStatus,
+                  carStatus,
+                )) &&
+            (identical(other.toDos, toDos) ||
+                const DeepCollectionEquality().equals(other.toDos, toDos)) &&
+            (identical(other.user, user) ||
+                const DeepCollectionEquality().equals(other.user, user)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(ticketnumber) ^
+      const DeepCollectionEquality().hash(userId) ^
+      const DeepCollectionEquality().hash(customerName) ^
+      const DeepCollectionEquality().hash(car) ^
+      const DeepCollectionEquality().hash(carStatus) ^
+      const DeepCollectionEquality().hash(toDos) ^
+      const DeepCollectionEquality().hash(user) ^
+      runtimeType.hashCode;
+}
+
+extension $DbTicketExtension on DbTicket {
+  DbTicket copyWith({
+    int? id,
+    String? ticketnumber,
+    int? userId,
+    String? customerName,
+    String? car,
+    enums.CarStatusEnum? carStatus,
+    List<DbToDos>? toDos,
+    DbUser? user,
+  }) {
+    return DbTicket(
+      id: id ?? this.id,
+      ticketnumber: ticketnumber ?? this.ticketnumber,
+      userId: userId ?? this.userId,
+      customerName: customerName ?? this.customerName,
+      car: car ?? this.car,
+      carStatus: carStatus ?? this.carStatus,
+      toDos: toDos ?? this.toDos,
+      user: user ?? this.user,
+    );
+  }
+
+  DbTicket copyWithWrapped({
+    Wrapped<int>? id,
+    Wrapped<String?>? ticketnumber,
+    Wrapped<int?>? userId,
+    Wrapped<String>? customerName,
+    Wrapped<String>? car,
+    Wrapped<enums.CarStatusEnum>? carStatus,
+    Wrapped<List<DbToDos>?>? toDos,
+    Wrapped<DbUser?>? user,
+  }) {
+    return DbTicket(
+      id: (id != null ? id.value : this.id),
+      ticketnumber: (ticketnumber != null
+          ? ticketnumber.value
+          : this.ticketnumber),
+      userId: (userId != null ? userId.value : this.userId),
+      customerName: (customerName != null
+          ? customerName.value
+          : this.customerName),
+      car: (car != null ? car.value : this.car),
+      carStatus: (carStatus != null ? carStatus.value : this.carStatus),
+      toDos: (toDos != null ? toDos.value : this.toDos),
+      user: (user != null ? user.value : this.user),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
+class DbToDos {
+  const DbToDos({
+    required this.id,
+    required this.todo,
+    required this.done,
+    this.dbTicketId,
+    this.ticket,
+  });
+
+  factory DbToDos.fromJson(Map<String, dynamic> json) =>
+      _$DbToDosFromJson(json);
+
+  static const toJsonFactory = _$DbToDosToJson;
+  Map<String, dynamic> toJson() => _$DbToDosToJson(this);
+
+  @JsonKey(name: 'id')
+  final int id;
+  @JsonKey(name: 'todo')
+  final String todo;
+  @JsonKey(name: 'done')
+  final bool done;
+  @JsonKey(name: 'dbTicketId')
+  final int? dbTicketId;
+  @JsonKey(name: 'ticket')
+  final DbTicket? ticket;
+  static const fromJsonFactory = _$DbToDosFromJson;
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other is DbToDos &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
+            (identical(other.todo, todo) ||
+                const DeepCollectionEquality().equals(other.todo, todo)) &&
+            (identical(other.done, done) ||
+                const DeepCollectionEquality().equals(other.done, done)) &&
+            (identical(other.dbTicketId, dbTicketId) ||
+                const DeepCollectionEquality().equals(
+                  other.dbTicketId,
+                  dbTicketId,
+                )) &&
+            (identical(other.ticket, ticket) ||
+                const DeepCollectionEquality().equals(other.ticket, ticket)));
+  }
+
+  @override
+  String toString() => jsonEncode(this);
+
+  @override
+  int get hashCode =>
+      const DeepCollectionEquality().hash(id) ^
+      const DeepCollectionEquality().hash(todo) ^
+      const DeepCollectionEquality().hash(done) ^
+      const DeepCollectionEquality().hash(dbTicketId) ^
+      const DeepCollectionEquality().hash(ticket) ^
+      runtimeType.hashCode;
+}
+
+extension $DbToDosExtension on DbToDos {
+  DbToDos copyWith({
+    int? id,
+    String? todo,
+    bool? done,
+    int? dbTicketId,
+    DbTicket? ticket,
+  }) {
+    return DbToDos(
+      id: id ?? this.id,
+      todo: todo ?? this.todo,
+      done: done ?? this.done,
+      dbTicketId: dbTicketId ?? this.dbTicketId,
+      ticket: ticket ?? this.ticket,
+    );
+  }
+
+  DbToDos copyWithWrapped({
+    Wrapped<int>? id,
+    Wrapped<String>? todo,
+    Wrapped<bool>? done,
+    Wrapped<int?>? dbTicketId,
+    Wrapped<DbTicket?>? ticket,
+  }) {
+    return DbToDos(
+      id: (id != null ? id.value : this.id),
+      todo: (todo != null ? todo.value : this.todo),
+      done: (done != null ? done.value : this.done),
+      dbTicketId: (dbTicketId != null ? dbTicketId.value : this.dbTicketId),
+      ticket: (ticket != null ? ticket.value : this.ticket),
+    );
+  }
+}
+
+@JsonSerializable(explicitToJson: true)
 class DbUser {
   const DbUser({
     required this.id,
     required this.username,
     required this.password,
     required this.isAdmin,
+    this.tickets,
   });
 
   factory DbUser.fromJson(Map<String, dynamic> json) => _$DbUserFromJson(json);
@@ -271,6 +546,8 @@ class DbUser {
   final String password;
   @JsonKey(name: 'isAdmin')
   final bool isAdmin;
+  @JsonKey(name: 'tickets', defaultValue: <DbTicket>[])
+  final List<DbTicket>? tickets;
   static const fromJsonFactory = _$DbUserFromJson;
 
   @override
@@ -290,7 +567,12 @@ class DbUser {
                   password,
                 )) &&
             (identical(other.isAdmin, isAdmin) ||
-                const DeepCollectionEquality().equals(other.isAdmin, isAdmin)));
+                const DeepCollectionEquality().equals(
+                  other.isAdmin,
+                  isAdmin,
+                )) &&
+            (identical(other.tickets, tickets) ||
+                const DeepCollectionEquality().equals(other.tickets, tickets)));
   }
 
   @override
@@ -302,6 +584,7 @@ class DbUser {
       const DeepCollectionEquality().hash(username) ^
       const DeepCollectionEquality().hash(password) ^
       const DeepCollectionEquality().hash(isAdmin) ^
+      const DeepCollectionEquality().hash(tickets) ^
       runtimeType.hashCode;
 }
 
@@ -311,12 +594,14 @@ extension $DbUserExtension on DbUser {
     String? username,
     String? password,
     bool? isAdmin,
+    List<DbTicket>? tickets,
   }) {
     return DbUser(
       id: id ?? this.id,
       username: username ?? this.username,
       password: password ?? this.password,
       isAdmin: isAdmin ?? this.isAdmin,
+      tickets: tickets ?? this.tickets,
     );
   }
 
@@ -325,12 +610,14 @@ extension $DbUserExtension on DbUser {
     Wrapped<String>? username,
     Wrapped<String>? password,
     Wrapped<bool>? isAdmin,
+    Wrapped<List<DbTicket>?>? tickets,
   }) {
     return DbUser(
       id: (id != null ? id.value : this.id),
       username: (username != null ? username.value : this.username),
       password: (password != null ? password.value : this.password),
       isAdmin: (isAdmin != null ? isAdmin.value : this.isAdmin),
+      tickets: (tickets != null ? tickets.value : this.tickets),
     );
   }
 }
@@ -339,6 +626,7 @@ extension $DbUserExtension on DbUser {
 class TicketDto {
   const TicketDto({
     this.ticketnumber,
+    this.userId,
     this.customerName,
     this.car,
     this.carStatus,
@@ -353,6 +641,8 @@ class TicketDto {
 
   @JsonKey(name: 'ticketnumber')
   final String? ticketnumber;
+  @JsonKey(name: 'userId')
+  final int? userId;
   @JsonKey(name: 'customerName')
   final String? customerName;
   @JsonKey(name: 'car')
@@ -376,6 +666,8 @@ class TicketDto {
                   other.ticketnumber,
                   ticketnumber,
                 )) &&
+            (identical(other.userId, userId) ||
+                const DeepCollectionEquality().equals(other.userId, userId)) &&
             (identical(other.customerName, customerName) ||
                 const DeepCollectionEquality().equals(
                   other.customerName,
@@ -398,6 +690,7 @@ class TicketDto {
   @override
   int get hashCode =>
       const DeepCollectionEquality().hash(ticketnumber) ^
+      const DeepCollectionEquality().hash(userId) ^
       const DeepCollectionEquality().hash(customerName) ^
       const DeepCollectionEquality().hash(car) ^
       const DeepCollectionEquality().hash(carStatus) ^
@@ -408,6 +701,7 @@ class TicketDto {
 extension $TicketDtoExtension on TicketDto {
   TicketDto copyWith({
     String? ticketnumber,
+    int? userId,
     String? customerName,
     String? car,
     enums.CarStatusEnum? carStatus,
@@ -415,6 +709,7 @@ extension $TicketDtoExtension on TicketDto {
   }) {
     return TicketDto(
       ticketnumber: ticketnumber ?? this.ticketnumber,
+      userId: userId ?? this.userId,
       customerName: customerName ?? this.customerName,
       car: car ?? this.car,
       carStatus: carStatus ?? this.carStatus,
@@ -424,6 +719,7 @@ extension $TicketDtoExtension on TicketDto {
 
   TicketDto copyWithWrapped({
     Wrapped<String?>? ticketnumber,
+    Wrapped<int?>? userId,
     Wrapped<String?>? customerName,
     Wrapped<String?>? car,
     Wrapped<enums.CarStatusEnum?>? carStatus,
@@ -433,6 +729,7 @@ extension $TicketDtoExtension on TicketDto {
       ticketnumber: (ticketnumber != null
           ? ticketnumber.value
           : this.ticketnumber),
+      userId: (userId != null ? userId.value : this.userId),
       customerName: (customerName != null
           ? customerName.value
           : this.customerName),
@@ -494,7 +791,7 @@ extension $ToDoDtoExtension on ToDoDto {
 
 @JsonSerializable(explicitToJson: true)
 class UserDto {
-  const UserDto({this.username, this.password});
+  const UserDto({this.customerName, this.username, this.password});
 
   factory UserDto.fromJson(Map<String, dynamic> json) =>
       _$UserDtoFromJson(json);
@@ -502,6 +799,8 @@ class UserDto {
   static const toJsonFactory = _$UserDtoToJson;
   Map<String, dynamic> toJson() => _$UserDtoToJson(this);
 
+  @JsonKey(name: 'customerName')
+  final String? customerName;
   @JsonKey(name: 'username')
   final String? username;
   @JsonKey(name: 'password')
@@ -512,6 +811,11 @@ class UserDto {
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other is UserDto &&
+            (identical(other.customerName, customerName) ||
+                const DeepCollectionEquality().equals(
+                  other.customerName,
+                  customerName,
+                )) &&
             (identical(other.username, username) ||
                 const DeepCollectionEquality().equals(
                   other.username,
@@ -529,24 +833,30 @@ class UserDto {
 
   @override
   int get hashCode =>
+      const DeepCollectionEquality().hash(customerName) ^
       const DeepCollectionEquality().hash(username) ^
       const DeepCollectionEquality().hash(password) ^
       runtimeType.hashCode;
 }
 
 extension $UserDtoExtension on UserDto {
-  UserDto copyWith({String? username, String? password}) {
+  UserDto copyWith({String? customerName, String? username, String? password}) {
     return UserDto(
+      customerName: customerName ?? this.customerName,
       username: username ?? this.username,
       password: password ?? this.password,
     );
   }
 
   UserDto copyWithWrapped({
+    Wrapped<String?>? customerName,
     Wrapped<String?>? username,
     Wrapped<String?>? password,
   }) {
     return UserDto(
+      customerName: (customerName != null
+          ? customerName.value
+          : this.customerName),
       username: (username != null ? username.value : this.username),
       password: (password != null ? password.value : this.password),
     );

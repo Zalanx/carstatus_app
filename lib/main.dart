@@ -1,6 +1,7 @@
 
 import 'package:carstatus_app/helper/Themehelper.dart';
 import 'package:carstatus_app/pages/Authorization/LoginController.dart';
+import 'package:carstatus_app/pages/Customer%20View/CustomerViewController.dart';
 import 'package:carstatus_app/pages/Ticket/Ticketcontroller.dart';
 import 'package:carstatus_app/pages/Ticketcreation/TicketcreationController.dart';
 import 'package:carstatus_app/pages/Landing%20Page/LandingPage.dart';
@@ -28,15 +29,19 @@ class MainApp extends StatelessWidget {
 void putControllers() {
   Get.put(ThemeHelper());
   Get.put(Ticketlistcontroller());
+  Get.put(Customerviewcontroller());
   Get.put(Logincontroller());
   Get.put(Ticketcontroller(ticket: TicketDto()));
   Get.put(TicketCreationController());
+  
 }
 
 void setControllers() {
   Get.find<ThemeHelper>();
   Get.find<Ticketlistcontroller>();
+  Get.find<Customerviewcontroller>();
   Get.find<Logincontroller>();
   Get.find<Ticketcontroller>();
   Get.find<TicketCreationController>();
+  
 }
