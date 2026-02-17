@@ -1,4 +1,3 @@
-import 'package:carstatus_app/pages/Authorization/LoginController.dart';
 import 'package:carstatus_app/pages/Ticket%20list/TicketListController.dart';
 import 'package:carstatus_app/pages/Ticket%20list/TicketListPage.dart';
 import 'package:carstatus_app/swagger/output/CarStatusApi.swagger.dart';
@@ -23,7 +22,19 @@ class TicketCreationController extends GetxController {
             .where((t) => t.isNotEmpty)
             .toList();
 
-    var userid = await api.apiCarStatusGetUserIdByUsernameGet(username: usernameController.text);
+    var userid = await api.apiCarStatusGetUserIdByUsernameGet(
+      username: usernameController.text,
+    );
+    if (userid.body == null) {
+      Get.snackbar(
+        "Falscher Benutzername!",
+        "Bitte geben Sie einen richtigen Benutzernamen ein!",
+        backgroundColor: Colors.redAccent,
+        snackPosition: SnackPosition.BOTTOM,
+        margin: EdgeInsets.all(16),
+      );
+      return;
+    }
 
     await api.apiCarStatusCreateTicketPost(
       body: CreateTicketDto(

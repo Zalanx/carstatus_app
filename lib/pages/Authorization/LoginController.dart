@@ -20,7 +20,7 @@ class Logincontroller extends GetxController {
     var response = await api.apiCarStatusLoginUserPost(body: user);
 
     if (response.body == null) {
-      Get.snackbar('Fehler', 'Login fehlgeschlagen: Benutzer nicht gefunden.');
+      Get.snackbar('Fehler', 'Login fehlgeschlagen: Benutzer nicht gefunden.', );
       return; 
     }
 

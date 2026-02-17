@@ -1,6 +1,7 @@
 
 import 'package:carstatus_app/components/cs_appbar.dart';
 import 'package:carstatus_app/components/cs_button.dart';
+import 'package:carstatus_app/components/cs_container.dart';
 import 'package:carstatus_app/components/cs_scaffold.dart';
 import 'package:carstatus_app/components/cs_text.dart';
 import 'package:carstatus_app/pages/Ticket/Ticketcontroller.dart';
@@ -32,12 +33,8 @@ class TicketPage extends StatelessWidget {
           child: Column(
             children: [
               Center(
-                child: Container(
+                child: CsContainer(
                   padding: EdgeInsets.all(15),
-                  decoration: BoxDecoration(
-                    border: Border.all(width: 3),
-                    color: Colors.grey[500],
-                  ),
                   child: CsText(
                     text: ticket.ticketnumber ?? "Keine Ticketnummer",
                     size: 32,
@@ -158,7 +155,7 @@ class TicketPage extends StatelessWidget {
                       child: CsText(text: "Zu erledigen", size: 28),
                     ),
                   ),
-                  Container(
+                  CsContainer(
                     height: 200,
                     decoration: BoxDecoration(
                       border: Border.all(color: Colors.black, width: 2),
@@ -196,9 +193,12 @@ Widget _todoElement(TicketDto ticket, ToDoDto todo) {
       children: [
         Obx(
           () => Checkbox(
-            value: controller.todoStatus.value,
-            onChanged: (newValue) => controller.todoStatus.value = newValue!,
-          ),
+  value: todo.done,
+  onChanged: (newValue) {
+    todo.done = newValue;
+    controller.todos.refresh(); // wichtig bei GetX
+  },
+),
         ),
         CsText(text: todo.task!, size: 20),
       ],

@@ -1,4 +1,5 @@
 import 'package:carstatus_app/components/cs_appbar.dart';
+import 'package:carstatus_app/components/cs_container.dart';
 import 'package:carstatus_app/components/cs_scaffold.dart';
 import 'package:carstatus_app/components/cs_text.dart';
 import 'package:carstatus_app/pages/Authorization/RegistrationController.dart';
@@ -22,7 +23,7 @@ Widget _pageBody(BuildContext context) {
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         const Center(
-          child: CsText(text: "Registrieren", size: 32,),
+          child: CsContainer(child: CsText(text: "Registrieren", size: 32,)),
         ),
         Column(
           children: [

@@ -53,14 +53,16 @@ class Ticketcontroller extends GetxController {
   Future<void> updateCarStatusTicket(TicketDto ticket) async {
      Logincontroller loginController = Get.find();
     Ticketlistcontroller ticketListController =
-        Get.find<Ticketlistcontroller>();
+        Get.find();
+
+        
 
     var updatedTicket = TicketDto(
       ticketnumber: ticket.ticketnumber,
       carStatus: selectedCarStatus.value,
       car: customerCar.value,
       customerName: customerName.value,
-      toDos: ticket.toDos,
+      toDos: ticket.toDos!,
       userId: loginController.loggedInUser!.id,
     );
     ticketListController.updateTicket(updatedTicket);
@@ -71,7 +73,7 @@ class Ticketcontroller extends GetxController {
           newCarStatus: selectedCarStatus.value,
           car: customerCar.value,
           customerName: customerName.value,
-          body: todos,
+          body: ticket.toDos!,
         )
         .then((response) {
           if (response.statusCode == 200) {
