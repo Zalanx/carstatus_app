@@ -42,7 +42,7 @@ class TicketCreationController extends GetxController {
         customerName: customerNameController.text,
         car: customerCarController.text,
         carStatus: CarStatusEnum.warteschlange,
-        toDos: todos.map((t) => ToDoDto(task: t, done: false)).toList(),
+        toDos: todos.map((todo) => ToDoDto(task: todo, done: false, id: 0)).toList(),
       ),
     );
     await ticketlistcontroller.fetchTickets();

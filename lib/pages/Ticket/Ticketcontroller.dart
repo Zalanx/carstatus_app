@@ -11,14 +11,26 @@ class Ticketcontroller extends GetxController {
 
     customerCar.value = ticket.car ?? "Kein Auto";
     customerCarController = TextEditingController(text: customerCar.value);
+
+    selectedCarStatus = (ticket.carStatus ?? CarStatusEnum.warteschlange).obs;
+
+    todoValues.clear();
+    for (var todo in ticket.toDos ?? []) {
+      todoValues[todo.id] = todo.done;
+    }
   }
 
   CarStatusApi api = CarStatusApi.create();
 
-  Rx<bool> todoStatus = false.obs;
-  late Rx selectedCarStatus = ticket.carStatus!.obs;
+  late Rx selectedCarStatus;
 
   TicketDto ticket;
+
+  void setTicket(TicketDto t) {
+    ticket = t;
+  }
+
+  RxMap<int, bool> todoValues = <int, bool>{}.obs;
 
   RxString customerName = "".obs;
   RxString customerCar = "".obs;
@@ -41,28 +53,22 @@ class Ticketcontroller extends GetxController {
 
   RxList<ToDoDto> todos = <ToDoDto>[].obs;
 
-  Future<void> fetchTodos(TicketDto ticket) async {
-   
-    var response = await api.apiCarStatusGetTicketByIdGet(
-      ticketId: ticket.ticketnumber,
-    );
-
-    todos = response.body!.toDos!.obs;
-  }
-
   Future<void> updateCarStatusTicket(TicketDto ticket) async {
-     Logincontroller loginController = Get.find();
-    Ticketlistcontroller ticketListController =
-        Get.find();
+    Logincontroller loginController = Get.find();
+    Ticketlistcontroller ticketListController = Get.find();
 
-        
+    var returnTodos =
+        ticket.toDos!.map((t) {
+          final doneValue = todoValues[t.id];
+          return ToDoDto(id: t.id, task: t.task, done: doneValue ?? t.done);
+        }).toList();
 
     var updatedTicket = TicketDto(
       ticketnumber: ticket.ticketnumber,
       carStatus: selectedCarStatus.value,
       car: customerCar.value,
       customerName: customerName.value,
-      toDos: ticket.toDos!,
+      toDos: returnTodos,
       userId: loginController.loggedInUser!.id,
     );
     ticketListController.updateTicket(updatedTicket);
@@ -73,7 +79,7 @@ class Ticketcontroller extends GetxController {
           newCarStatus: selectedCarStatus.value,
           car: customerCar.value,
           customerName: customerName.value,
-          body: ticket.toDos!,
+          body: returnTodos,
         )
         .then((response) {
           if (response.statusCode == 200) {

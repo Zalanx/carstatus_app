@@ -38,7 +38,7 @@ Widget _pageBody(BuildContext context, TicketDto ticket) {
             fontWeight: FontWeight.w900,
           ),
           Lottie.asset(
-            "assets/lottie/car_service.json",
+            "assets/carservice.json",
             height: 300,
             width: 300,
           ),

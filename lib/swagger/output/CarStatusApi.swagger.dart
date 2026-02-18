@@ -1,6 +1,7 @@
 // ignore_for_file: type=lint
 
 import 'package:json_annotation/json_annotation.dart';
+import 'package:json_annotation/json_annotation.dart' as json;
 import 'package:collection/collection.dart';
 import 'dart:convert';
 
@@ -9,6 +10,7 @@ import 'package:chopper/chopper.dart';
 import 'client_mapping.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
+import 'package:http/http.dart' show MultipartFile;
 import 'package:chopper/chopper.dart' as chopper;
 import 'CarStatusApi.enums.swagger.dart' as enums;
 export 'CarStatusApi.enums.swagger.dart';
@@ -740,7 +742,7 @@ extension $TicketDtoExtension on TicketDto {
 
 @JsonSerializable(explicitToJson: true)
 class ToDoDto {
-  const ToDoDto({this.task, required this.done});
+  const ToDoDto({required this.id, this.task, required this.done});
 
   factory ToDoDto.fromJson(Map<String, dynamic> json) =>
       _$ToDoDtoFromJson(json);
@@ -748,6 +750,8 @@ class ToDoDto {
   static const toJsonFactory = _$ToDoDtoToJson;
   Map<String, dynamic> toJson() => _$ToDoDtoToJson(this);
 
+  @JsonKey(name: 'id')
+  final int id;
   @JsonKey(name: 'task')
   final String? task;
   @JsonKey(name: 'done')
@@ -758,6 +762,8 @@ class ToDoDto {
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other is ToDoDto &&
+            (identical(other.id, id) ||
+                const DeepCollectionEquality().equals(other.id, id)) &&
             (identical(other.task, task) ||
                 const DeepCollectionEquality().equals(other.task, task)) &&
             (identical(other.done, done) ||
@@ -769,18 +775,28 @@ class ToDoDto {
 
   @override
   int get hashCode =>
+      const DeepCollectionEquality().hash(id) ^
       const DeepCollectionEquality().hash(task) ^
       const DeepCollectionEquality().hash(done) ^
       runtimeType.hashCode;
 }
 
 extension $ToDoDtoExtension on ToDoDto {
-  ToDoDto copyWith({String? task, bool? done}) {
-    return ToDoDto(task: task ?? this.task, done: done ?? this.done);
+  ToDoDto copyWith({int? id, String? task, bool? done}) {
+    return ToDoDto(
+      id: id ?? this.id,
+      task: task ?? this.task,
+      done: done ?? this.done,
+    );
   }
 
-  ToDoDto copyWithWrapped({Wrapped<String?>? task, Wrapped<bool>? done}) {
+  ToDoDto copyWithWrapped({
+    Wrapped<int>? id,
+    Wrapped<String?>? task,
+    Wrapped<bool>? done,
+  }) {
     return ToDoDto(
+      id: (id != null ? id.value : this.id),
       task: (task != null ? task.value : this.task),
       done: (done != null ? done.value : this.done),
     );

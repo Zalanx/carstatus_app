@@ -1,4 +1,3 @@
-
 import 'package:carstatus_app/components/cs_appbar.dart';
 import 'package:carstatus_app/components/cs_button.dart';
 import 'package:carstatus_app/components/cs_container.dart';
@@ -8,7 +7,7 @@ import 'package:carstatus_app/pages/Ticket/Ticketcontroller.dart';
 import 'package:carstatus_app/swagger/output/CarStatusApi.swagger.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:get/get.dart';
 
 class TicketPage extends StatelessWidget {
   const TicketPage({super.key, required this.ticket});
@@ -24,7 +23,9 @@ class TicketPage extends StatelessWidget {
   }
 
   Widget _pageBody(BuildContext context, TicketDto ticket) {
-    Ticketcontroller controller = Ticketcontroller(ticket: ticket);
+    Ticketcontroller controller = Get.find<Ticketcontroller>();
+    controller.setTicket(ticket);
+
     return SingleChildScrollView(
       child: SafeArea(
         child: SizedBox(
@@ -122,7 +123,8 @@ class TicketPage extends StatelessWidget {
                             CarStatusEnum.values
                                 .where(
                                   (e) =>
-                                      e != CarStatusEnum.swaggerGeneratedUnknown,
+                                      e !=
+                                      CarStatusEnum.swaggerGeneratedUnknown,
                                 )
                                 .map(
                                   (e) => DropdownMenuItem(
@@ -162,8 +164,8 @@ class TicketPage extends StatelessWidget {
                     ),
                     child: ListView(
                       children: [
-                        ...controller.ticket.toDos!.map(
-                          (todo) => _todoElement(ticket, todo),
+                        ...(controller.ticket.toDos ?? []).map(
+                          (todo) => _todoElement(ticket, todo, controller),
                         ),
                       ],
                     ),
@@ -172,7 +174,7 @@ class TicketPage extends StatelessWidget {
                   CsButton(
                     height: 60,
                     width: 130,
-                    child: CsText(text: "Aktualisieren", size: 16,),
+                    child: CsText(text: "Aktualisieren", size: 16),
                     onTap: () => controller.updateCarStatusTicket(ticket),
                   ),
                 ],
@@ -185,23 +187,17 @@ class TicketPage extends StatelessWidget {
   }
 }
 
-Widget _todoElement(TicketDto ticket, ToDoDto todo) {
-  Ticketcontroller controller = Ticketcontroller(ticket: ticket);
-  return Expanded(
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        Obx(
-          () => Checkbox(
-  value: todo.done,
-  onChanged: (newValue) {
-    todo.done = newValue;
-    controller.todos.refresh(); // wichtig bei GetX
-  },
-),
+Widget _todoElement(TicketDto ticket, ToDoDto todo, Ticketcontroller controller) {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.start,
+    children: [
+      Obx(
+        () => Checkbox(
+          value: controller.todoValues[todo.id] ?? todo.done,
+          onChanged: (v) => controller.todoValues[todo.id] = v!,
         ),
-        CsText(text: todo.task!, size: 20),
-      ],
-    ),
+      ),
+      CsText(text: todo.task!, size: 20),
+    ],
   );
 }

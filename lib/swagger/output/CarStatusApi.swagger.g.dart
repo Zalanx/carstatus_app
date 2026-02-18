@@ -118,10 +118,14 @@ Map<String, dynamic> _$TicketDtoToJson(TicketDto instance) => <String, dynamic>{
   'toDos': instance.toDos?.map((e) => e.toJson()).toList(),
 };
 
-ToDoDto _$ToDoDtoFromJson(Map<String, dynamic> json) =>
-    ToDoDto(task: json['task'] as String?, done: json['done'] as bool);
+ToDoDto _$ToDoDtoFromJson(Map<String, dynamic> json) => ToDoDto(
+  id: (json['id'] as num).toInt(),
+  task: json['task'] as String?,
+  done: json['done'] as bool,
+);
 
 Map<String, dynamic> _$ToDoDtoToJson(ToDoDto instance) => <String, dynamic>{
+  'id': instance.id,
   'task': instance.task,
   'done': instance.done,
 };
