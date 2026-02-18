@@ -23,45 +23,47 @@ class TicketListView extends StatelessWidget {
 
 Widget _pageBody(BuildContext context) {
   Ticketlistcontroller controller = Get.find<Ticketlistcontroller>();
-  return SizedBox(
-    height: MediaQuery.sizeOf(context).height,
-    width: MediaQuery.sizeOf(context).width,
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        Center(
-          child: CsContainer(child: CsText(text: "Verfügbare Tickets", size: 34)),
-        ),
-        ElevatedButton(
-          onPressed: () => Get.to(() => TicketCreationPage()),
-          style: ButtonStyle(
-            backgroundColor: WidgetStateProperty.all(Colors.blueAccent),
+  return SafeArea(
+    child: SizedBox(
+      height: MediaQuery.sizeOf(context).height,
+      width: MediaQuery.sizeOf(context).width,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          Center(
+            child: CsContainer(child: CsText(text: "Verfügbare Tickets", size: 34)),
           ),
-          child: CsText(
-            text: "+ Ticket erstellen",
-            size: 20,
-            color: Colors.white,
-          ),
-        ),
-        Container(
-          height: MediaQuery.sizeOf(context).height * 0.7,
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.black, width: 2),
-            borderRadius: BorderRadius.circular(12),
-            color: Colors.redAccent[100],
-          ),
-          child: Obx(
-            () => ListView(
-              padding: const EdgeInsets.all(12),
-              children: [
-                ...controller.tickets.map(
-                  (ticket) => _ticketCard(ticket, context, controller),
-                ),
-              ],
+          ElevatedButton(
+            onPressed: () => Get.to(() => TicketCreationPage()),
+            style: ButtonStyle(
+              backgroundColor: WidgetStateProperty.all(Colors.blueAccent),
+            ),
+            child: CsText(
+              text: "+ Ticket erstellen",
+              size: 20,
+              color: Colors.white,
             ),
           ),
-        ),
-      ],
+          Container(
+            height: MediaQuery.sizeOf(context).height * 0.65,
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.black, width: 2),
+              borderRadius: BorderRadius.circular(12),
+              color: Colors.redAccent[100],
+            ),
+            child: Obx(
+              () => ListView(
+                padding: const EdgeInsets.all(12),
+                children: [
+                  ...controller.tickets.map(
+                    (ticket) => _ticketCard(ticket, context, controller),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
     ),
   );
 }

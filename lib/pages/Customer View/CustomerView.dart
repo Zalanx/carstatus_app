@@ -22,74 +22,61 @@ class CustomerViewPage extends StatelessWidget {
   Widget _pageBody(BuildContext context) {
     Customerviewcontroller controller = Get.find();
     return SafeArea(
-      child: SizedBox(
-        height: MediaQuery.sizeOf(context).height,
-        width: MediaQuery.sizeOf(context).width,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            CsContainer(
-              decoration: BoxDecoration(
-                color: Colors.redAccent[100],
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: CsText(
-                text: "Autos bei uns:",
-                size: 40,
-                fontWeight: FontWeight.w900,
-              ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          CsContainer(
+            decoration: BoxDecoration(
+              color: Colors.redAccent[100],
+              borderRadius: BorderRadius.circular(12),
             ),
-            const SizedBox(height: 16),
-            CsText(
-              text: "Bitte wählen Sie das Auto das Sie :",
-              size: 26,
-              fontWeight: FontWeight.w700,
+            child: CsText(
+              text: "Autos bei uns:",
+              size: 40,
+              fontWeight: FontWeight.w900,
             ),
-            SizedBox(
-              height: MediaQuery.sizeOf(context).width * 1.2,
-              width: MediaQuery.sizeOf(context).width,
-              child: Scrollbar(
-                thickness: 5,
-                thumbVisibility: true,
-                child: SingleChildScrollView(
-                  child: Column(
-                    children:
-                        controller.customerTickets.isEmpty
-                            ? [
-                              SizedBox(
-                                height: 100,
-                                width: MediaQuery.sizeOf(context).width * 0.8,
-                                child: CsText(
-                                  text: "Kein Fahrzeug in der Werkstatt",
-                                  size: 32,
-                                  textAlign: TextAlign.center,
-                                  color: Colors.orange,
-                                ),
-                              ),
-                            ]
-                            : controller.customerTickets
-                                .map(
-                                  (ticket) =>
-                                      _ticketCard(ticket, context),
-                                )
-                                .toList(),
-                  ),
-                ),
-              ),
+          ),
+          const SizedBox(height: 16),
+          CsText(
+            text: "Bitte wählen Sie das Auto das Sie :",
+            size: 26,
+            fontWeight: FontWeight.w700,
+          ),
+          Expanded(
+            child: ListView.builder(
+              itemCount:
+                  controller.customerTickets.isEmpty
+                      ? 1
+                      : controller.customerTickets.length,
+              itemBuilder: (context, index) {
+                if (controller.customerTickets.isEmpty) {
+                  return Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: CsText(
+                      text: "Kein Fahrzeug in der Werkstatt",
+                      size: 32,
+                      textAlign: TextAlign.center,
+                      color: Colors.orange,
+                    ),
+                  );
+                } else {
+                  return _ticketCard(
+                    controller.customerTickets[index],
+                    context,
+                  );
+                }
+              },
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 }
 
-Widget _ticketCard(
-  TicketDto ticket,
-  BuildContext context,
-) {
+Widget _ticketCard(TicketDto ticket, BuildContext context) {
   return GestureDetector(
-    onTap: () => Get.to(() => CustomerCarView(ticket: ticket,)),
+    onTap: () => Get.to(() => CustomerCarView(ticket: ticket)),
     child: Container(
       width: 220,
       margin: const EdgeInsets.only(bottom: 12),
