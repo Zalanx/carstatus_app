@@ -1,5 +1,5 @@
 import 'package:carstatus_app/components/cs_scaffold.dart';
-import 'package:carstatus_app/pages/Scanner%20page/QrCodeScannerController.dart';
+import 'package:carstatus_app/pages/Qr%20Scanner%20page/QrCodeScannerController.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -18,8 +18,6 @@ class _QrCodeScannerState extends State<QrCodeScanner> {
       MobileScannerController(
         detectionSpeed: DetectionSpeed.noDuplicates,
         detectionTimeoutMs: 1000,
-        autoStart: true,
-        autoZoom: true,
       );
 
   @override
@@ -34,13 +32,14 @@ class _QrCodeScannerState extends State<QrCodeScanner> {
     QrCodeScannerController qrCodeScannerController =
         Get.find<QrCodeScannerController>();
     return CsScaffold(
+      resizeToAvoidBottomInset: true,
       backgroundColor: Colors.black,
       body: Stack(
         children: [
           MobileScanner(
             controller: mobileScannerController,
             onDetect: (barcode) {
-              qrCodeScannerController.test(barcode);
+              qrCodeScannerController.handleBarcode(barcode);
             },
           ),
           QRScannerOverlay(

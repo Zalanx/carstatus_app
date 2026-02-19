@@ -1,12 +1,13 @@
-import 'package:carstatus_app/components/cs_appbar.dart';
 import 'package:carstatus_app/components/cs_container.dart';
 import 'package:carstatus_app/components/cs_scaffold.dart';
 import 'package:carstatus_app/components/cs_text.dart';
+import 'package:carstatus_app/pages/Qr%20Generator%20Page/QrCodeGenerator.dart';
 import 'package:carstatus_app/pages/Ticketcreation/TicketCreation.dart';
 import 'package:carstatus_app/pages/Ticket%20list/TicketListController.dart';
 import 'package:carstatus_app/pages/Ticket/Ticket.dart';
 import 'package:carstatus_app/swagger/output/CarStatusApi.swagger.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
 class TicketListView extends StatelessWidget {
@@ -15,7 +16,23 @@ class TicketListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CsScaffold(
-      appBar: CsAppbar(pageTitle: "", backButton: true),
+      resizeToAvoidBottomInset: true,
+      appBar: Padding(
+        padding: EdgeInsets.all(12),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            IconButton(
+              onPressed: () => Get.back(),
+              icon: FaIcon(FontAwesomeIcons.arrowLeft),
+            ),
+            IconButton(
+              onPressed: () => Get.to(() => QrCodeGenerator()),
+              icon: const Icon(FontAwesomeIcons.qrcode),
+            ),
+          ],
+        ),
+      ),
       body: _pageBody(context),
     );
   }
@@ -31,7 +48,9 @@ Widget _pageBody(BuildContext context) {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           Center(
-            child: CsContainer(child: CsText(text: "Verfügbare Tickets", size: 34)),
+            child: CsContainer(
+              child: CsText(text: "Verfügbare Tickets", size: 34),
+            ),
           ),
           ElevatedButton(
             onPressed: () => Get.to(() => TicketCreationPage()),

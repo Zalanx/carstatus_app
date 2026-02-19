@@ -15,7 +15,9 @@ class Landingpage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Get.find<ThemeHelper>();
-    return CsScaffold(body: _pageBody(context), appBar: Row(
+    return CsScaffold(
+      resizeToAvoidBottomInset: true,
+      body: _pageBody(context), appBar: Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [ 
         FaIcon(FontAwesomeIcons.moon, color: theme.darkmode.value ? Colors.yellow : Colors.grey,),

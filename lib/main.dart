@@ -2,7 +2,8 @@
 import 'package:carstatus_app/helper/Themehelper.dart';
 import 'package:carstatus_app/pages/Authorization/LoginController.dart';
 import 'package:carstatus_app/pages/Customer%20View/CustomerViewController.dart';
-import 'package:carstatus_app/pages/Scanner%20page/QrCodeScannerController.dart';
+import 'package:carstatus_app/pages/Qr%20Generator%20Page/QrCodeGeneratorController.dart';
+import 'package:carstatus_app/pages/Qr%20Scanner%20page/QrCodeScannerController.dart';
 import 'package:carstatus_app/pages/Ticket/Ticketcontroller.dart';
 import 'package:carstatus_app/pages/Ticketcreation/TicketcreationController.dart';
 import 'package:carstatus_app/pages/Landing%20Page/LandingPage.dart';
@@ -38,6 +39,7 @@ void putControllers() {
   Get.put(Ticketcontroller(ticket: TicketDto()));
   Get.put(TicketCreationController());
   Get.put(QrCodeScannerController());
+  Get.put(QrCodeGeneratorController());
   
 }
 
@@ -49,5 +51,6 @@ void setControllers() {
   Get.find<Ticketcontroller>();
   Get.find<TicketCreationController>();
   Get.find<QrCodeScannerController>();
+  Get.find<QrCodeGeneratorController>();
   
 }

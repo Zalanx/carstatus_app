@@ -12,6 +12,7 @@ class TicketCreationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CsScaffold(
+      resizeToAvoidBottomInset: true,
       body: _pageBody(context),
       appBar: CsAppbar(pageTitle: "", backButton: true),
     );

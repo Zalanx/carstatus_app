@@ -3,7 +3,7 @@ import 'package:carstatus_app/components/cs_container.dart';
 import 'package:carstatus_app/components/cs_scaffold.dart';
 import 'package:carstatus_app/components/cs_text.dart';
 import 'package:carstatus_app/pages/Authorization/LoginController.dart';
-import 'package:carstatus_app/pages/Scanner%20page/QrCodeScanner.dart';
+import 'package:carstatus_app/pages/Qr%20Scanner%20page/QrCodeScanner.dart';
 import 'package:carstatus_app/swagger/output/CarStatusApi.swagger.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -15,6 +15,7 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CsScaffold(
+      resizeToAvoidBottomInset: true,
       body: _pageBody(context),
       appBar: CsAppbar(pageTitle: "", backButton: true),
     );
@@ -50,18 +51,38 @@ Widget _pageBody(BuildContext context) {
               labelText: 'Passwort...',
             ),
           ),
+          const SizedBox(height: 24),
+          CsText(text: "Oder mit Ticketnummer:", size: 18),
           const SizedBox(height: 16),
+          
           Row(
-            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              CsContainer(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(48),
-                  color: Colors.redAccent, 
+              Expanded(
+            flex: 2,
+            child: TextField(
+              controller: logincontroller.ticketnumberController,
+              obscureText: true,
+              focusNode: logincontroller.passwordFocusNode,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
                 ),
-                child: IconButton(
-                  onPressed: () => Get.to(() => QrCodeScanner()),
-                  icon: FaIcon(FontAwesomeIcons.qrcode, color: Colors.black),
+                labelText: 'Ticketnummer...',
+              ),
+            ),
+          ),
+          const SizedBox(width: 16),
+              Expanded(
+                flex: 1,
+                child: CsContainer(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(48),
+                    color: Colors.redAccent, 
+                  ),
+                  child: IconButton(
+                    onPressed: () => Get.to(() => QrCodeScanner()),
+                    icon: Icon(Icons.qr_code, color: Colors.black, size: 32,),
+                  ),
                 ),
               ),
             ],

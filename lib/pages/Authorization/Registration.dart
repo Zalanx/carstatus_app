@@ -10,7 +10,11 @@ class RegistrationPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CsScaffold(body: _pageBody(context), appBar: CsAppbar(pageTitle: "", backButton: true, ),);
+    return CsScaffold(
+      resizeToAvoidBottomInset: true,
+      body: _pageBody(context),
+      appBar: CsAppbar(pageTitle: "", backButton: true),
+    );
   }
 }
 
@@ -23,12 +27,11 @@ Widget _pageBody(BuildContext context) {
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         const Center(
-          child: CsContainer(child: CsText(text: "Registrieren", size: 32,)),
+          child: CsContainer(child: CsText(text: "Registrieren", size: 32)),
         ),
         Column(
           children: [
-             TextField(
-
+            TextField(
               decoration: InputDecoration(
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
@@ -59,7 +62,7 @@ Widget _pageBody(BuildContext context) {
               controller: controller.registrationPassword,
             ),
             const SizedBox(height: 16),
-           TextField(
+            TextField(
               obscureText: true,
               decoration: InputDecoration(
                 border: OutlineInputBorder(
@@ -75,7 +78,7 @@ Widget _pageBody(BuildContext context) {
           onPressed: () {
             controller.registerUser();
           },
-          child: const CsText(text: "Registrieren", size: 20,),
+          child: const CsText(text: "Registrieren", size: 20),
         ),
       ],
     ),

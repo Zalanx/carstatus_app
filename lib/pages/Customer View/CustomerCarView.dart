@@ -14,6 +14,7 @@ class CustomerCarView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CsScaffold(
+      resizeToAvoidBottomInset: true,
       appBar: CsAppbar(pageTitle: "", backButton: true),
       body: _pageBody(context, ticket),
     );
