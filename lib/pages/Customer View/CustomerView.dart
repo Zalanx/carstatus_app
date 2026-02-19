@@ -38,7 +38,7 @@ class CustomerViewPage extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           CsText(
-            text: "Bitte wählen Sie das Auto das Sie :",
+            text: "Bitte wählen Sie Ihr Auto bei uns:",
             size: 26,
             fontWeight: FontWeight.w700,
           ),

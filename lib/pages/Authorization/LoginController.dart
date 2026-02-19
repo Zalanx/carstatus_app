@@ -14,6 +14,8 @@ class Logincontroller extends GetxController {
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
+  FocusNode passwordFocusNode = FocusNode();
+
   DbUser? loggedInUser;
 
   Future<void> handleLogin(UserDto user) async {
