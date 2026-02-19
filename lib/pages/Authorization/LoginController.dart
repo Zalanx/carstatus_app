@@ -22,7 +22,11 @@ class Logincontroller extends GetxController {
 
   Future<void> handleLogin(UserDto user) async {
 
-    if (ticketnumberController.text.isNotEmpty) {
+    var response = await api.apiCarStatusLoginUserPost(body: user);
+
+    if (response.body == null) {
+
+      if (ticketnumberController.text.isNotEmpty) {
       var response = await api.apiCarStatusGetTicketByIdGet(
         ticketId: ticketnumberController.text,
       );
@@ -39,11 +43,7 @@ class Logincontroller extends GetxController {
       return;
     }
 
-
-    var response = await api.apiCarStatusLoginUserPost(body: user);
-
-    if (response.body == null) {
-      Get.snackbar('Fehler', 'Login fehlgeschlagen: Benutzer nicht gefunden.', );
+      Get.snackbar('Fehler', 'Login fehlgeschlagen: Benutzer und Ticketnummer nicht gefunden.', );
       return; 
     }
 
