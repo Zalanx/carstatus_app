@@ -6,14 +6,6 @@ import 'package:get/get.dart';
 
 class Ticketcontroller extends GetxController {
   Ticketcontroller({required this.ticket}) {
-    customerName.value = ticket.customerName ?? "Kein Name";
-    customerNameController = TextEditingController(text: customerName.value);
-
-    customerCar.value = ticket.car ?? "Kein Auto";
-    customerCarController = TextEditingController(text: customerCar.value);
-
-    selectedCarStatus = (ticket.carStatus ?? CarStatusEnum.warteschlange).obs;
-
     todoValues.clear();
     for (var todo in ticket.toDos ?? []) {
       todoValues[todo.id] = todo.done;
@@ -22,12 +14,20 @@ class Ticketcontroller extends GetxController {
 
   CarStatusApi api = CarStatusApi.create();
 
-  late Rx selectedCarStatus;
+  late Rx<CarStatusEnum> selectedCarStatus;
 
   TicketDto ticket;
 
   void setTicket(TicketDto t) {
     ticket = t;
+
+    customerName.value = ticket.customerName ?? "Kein Name";
+    customerNameController = TextEditingController(text: customerName.value);
+
+    customerCar.value = ticket.car ?? "Kein Auto";
+    customerCarController = TextEditingController(text: customerCar.value);
+
+    selectedCarStatus = (ticket.carStatus ?? CarStatusEnum.warteschlange).obs;
   }
 
   RxMap<int, bool> todoValues = <int, bool>{}.obs;

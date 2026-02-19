@@ -3,6 +3,7 @@ import 'package:carstatus_app/components/cs_container.dart';
 import 'package:carstatus_app/components/cs_scaffold.dart';
 import 'package:carstatus_app/components/cs_text.dart';
 import 'package:carstatus_app/pages/Authorization/LoginController.dart';
+import 'package:carstatus_app/pages/Scanner%20page/QrCodeScanner.dart';
 import 'package:carstatus_app/swagger/output/CarStatusApi.swagger.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -25,7 +26,7 @@ Widget _pageBody(BuildContext context) {
   return Column(
     mainAxisAlignment: MainAxisAlignment.spaceAround,
     children: [
-     Center(child: CsContainer(child: CsText(text: "Anmelden", size: 32))),
+      Center(child: CsContainer(child: CsText(text: "Anmelden", size: 32))),
       Column(
         children: [
           TextField(
@@ -53,9 +54,18 @@ Widget _pageBody(BuildContext context) {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-                CsContainer( decoration: BoxDecoration(borderRadius: BorderRadius.circular(48), color:Colors.redAccent),child: IconButton(onPressed: () => {}, icon: FaIcon(FontAwesomeIcons.qrcode, color: Colors.black,))),
+              CsContainer(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(48),
+                  color: Colors.redAccent, 
+                ),
+                child: IconButton(
+                  onPressed: () => Get.to(() => QrCodeScanner()),
+                  icon: FaIcon(FontAwesomeIcons.qrcode, color: Colors.black),
+                ),
+              ),
             ],
-          )
+          ),
         ],
       ),
       ElevatedButton(

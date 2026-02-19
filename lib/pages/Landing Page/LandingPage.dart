@@ -1,4 +1,5 @@
 import 'package:carstatus_app/components/cs_button.dart';
+import 'package:carstatus_app/components/cs_container.dart';
 import 'package:carstatus_app/components/cs_scaffold.dart';
 import 'package:carstatus_app/components/cs_text.dart';
 import 'package:carstatus_app/helper/Themehelper.dart';
@@ -27,47 +28,51 @@ class Landingpage extends StatelessWidget {
   }
 
   Widget _pageBody(BuildContext context) {
-    return SizedBox(
-      height: MediaQuery.of(context).size.height - 150,
-      width: MediaQuery.of(context).size.width,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Center(
-            child: Text(
-              "Samuel Autohaus GmbH",
-              style: TextStyle(
-                fontStyle: FontStyle.italic,
-                fontSize: 32,
-                fontWeight: FontWeight.bold,
+    return SafeArea(
+      child: SizedBox(
+        height: MediaQuery.of(context).size.height - 150,
+        width: MediaQuery.of(context).size.width,
+        child: Column(
+          children: [
+            Center(
+              child: Text(
+                "Samuel Autohaus GmbH",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontStyle: FontStyle.italic,
+                  fontSize: 32,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
-          ),
-          SizedBox(
-            height: 280,
-            width: 280,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                CsButton(
-                  onTap: () => Get.to(() => const LoginPage()),
-                  height: 120,
-                  width: 200,
-                  borderRadius: BorderRadius.circular(16),
-                  child: CsText(text: "Einloggen",size: 24,),
-                ),
-                CsButton(
-                   onTap: () => Get.to(() => const RegistrationPage()),
-                  height: 120,
-                  width: 200,
-                  borderRadius: BorderRadius.circular(16),
-                  child: CsText(text: "Registrieren",size: 24,),
-                ),
-                
-              ],
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  CsContainer(
+                    child: CsButton(
+                      onTap: () => Get.to(() => const LoginPage()),
+                      height: 120,
+                      width: 200,
+                      borderRadius: BorderRadius.circular(16),
+                      child: CsText(text: "Einloggen",size: 24,),
+                    ),
+                  ),
+                  CsContainer(
+                    child: CsButton(
+                       onTap: () => Get.to(() => const RegistrationPage()),
+                      height: 120,
+                      width: 200,
+                      borderRadius: BorderRadius.circular(16),
+                      child: CsText(text: "Registrieren",size: 24,),
+                    ),
+                  ),
+                  
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

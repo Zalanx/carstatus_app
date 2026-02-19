@@ -2,18 +2,22 @@
 import 'package:carstatus_app/helper/Themehelper.dart';
 import 'package:carstatus_app/pages/Authorization/LoginController.dart';
 import 'package:carstatus_app/pages/Customer%20View/CustomerViewController.dart';
+import 'package:carstatus_app/pages/Scanner%20page/QrCodeScannerController.dart';
 import 'package:carstatus_app/pages/Ticket/Ticketcontroller.dart';
 import 'package:carstatus_app/pages/Ticketcreation/TicketcreationController.dart';
 import 'package:carstatus_app/pages/Landing%20Page/LandingPage.dart';
 import 'package:carstatus_app/pages/Ticket%20list/TicketListController.dart';
 import 'package:carstatus_app/swagger/output/CarStatusApi.swagger.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 void main() {
   putControllers();
   setControllers();
   runApp(const MainApp());
+
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 }
 
 class MainApp extends StatelessWidget {
@@ -33,6 +37,7 @@ void putControllers() {
   Get.put(Logincontroller());
   Get.put(Ticketcontroller(ticket: TicketDto()));
   Get.put(TicketCreationController());
+  Get.put(QrCodeScannerController());
   
 }
 
@@ -43,5 +48,6 @@ void setControllers() {
   Get.find<Logincontroller>();
   Get.find<Ticketcontroller>();
   Get.find<TicketCreationController>();
+  Get.find<QrCodeScannerController>();
   
 }
