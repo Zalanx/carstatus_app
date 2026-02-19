@@ -3,7 +3,6 @@ import 'package:carstatus_app/components/cs_button.dart';
 import 'package:carstatus_app/components/cs_container.dart';
 import 'package:carstatus_app/components/cs_scaffold.dart';
 import 'package:carstatus_app/components/cs_text.dart';
-import 'package:carstatus_app/pages/Ticket%20list/TicketListPage.dart';
 import 'package:carstatus_app/pages/Ticket/Ticketcontroller.dart';
 import 'package:carstatus_app/swagger/output/CarStatusApi.swagger.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +18,10 @@ class TicketPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return CsScaffold(
       resizeToAvoidBottomInset: true,
-      appBar: CsAppbar(pageTitle: "", backButton: true, onBackButtonPressed: () => Get.to(() => TicketListView()),),
+      appBar: CsAppbar(
+        pageTitle: "",
+        backButton: true,
+      ),
       body: _pageBody(context, ticket),
     );
   }
@@ -189,7 +191,11 @@ class TicketPage extends StatelessWidget {
   }
 }
 
-Widget _todoElement(TicketDto ticket, ToDoDto todo, Ticketcontroller controller) {
+Widget _todoElement(
+  TicketDto ticket,
+  ToDoDto todo,
+  Ticketcontroller controller,
+) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.start,
     children: [

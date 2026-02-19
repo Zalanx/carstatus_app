@@ -6,7 +6,6 @@ import 'package:carstatus_app/pages/Authorization/LoginController.dart';
 import 'package:carstatus_app/pages/Qr%20Scanner%20page/QrCodeScanner.dart';
 import 'package:carstatus_app/swagger/output/CarStatusApi.swagger.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
 class LoginPage extends StatelessWidget {
@@ -61,8 +60,6 @@ Widget _pageBody(BuildContext context) {
             flex: 2,
             child: TextField(
               controller: logincontroller.ticketnumberController,
-              obscureText: true,
-              focusNode: logincontroller.passwordFocusNode,
               decoration: InputDecoration(
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),

@@ -11,9 +11,8 @@ class CsAppbar extends StatelessWidget {
       required this.pageTitle,
       this.backgroundFill,
       this.overrideMiddle,
-      this.backButtonOnTap, this.onBackButtonPressed});
+      this.backButtonOnTap});
   final bool? backButton;
-  final void Function()? onBackButtonPressed;
   final String pageTitle;
   final bool? backgroundFill;
   final Widget? overrideMiddle;
@@ -36,7 +35,7 @@ class CsAppbar extends StatelessWidget {
                   ? SizedBox(
                       width: 50,
                       child: IconButton(
-                        onPressed: () => onBackButtonPressed ?? {
+                        onPressed: () => {
                           Get.back(),
                           backButtonOnTap != null
                               ? backButtonOnTap!()
