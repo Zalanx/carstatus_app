@@ -46,6 +46,14 @@ Widget _pageBody(BuildContext context) {
                   ),
         ),
       ),
+      OutlinedButton.icon(
+        onPressed: () => qrCodeGeneratorController.printQrCode(),
+        icon: const Icon(Icons.print),
+        label: CsText(text: "Drucken oder als PDF speichern"),
+        style: OutlinedButton.styleFrom(
+          minimumSize: const Size(double.infinity, 50),
+        ),
+      ),
       TextField(
         controller: qrCodeGeneratorController.ticketIdTextController,
         decoration: InputDecoration(
