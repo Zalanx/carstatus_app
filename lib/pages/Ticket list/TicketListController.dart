@@ -1,5 +1,6 @@
 import 'package:carstatus_app/pages/Ticket/Ticketcontroller.dart';
 import 'package:carstatus_app/swagger/output/CarStatusApi.swagger.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class Ticketlistcontroller extends GetxController {
@@ -8,25 +9,25 @@ class Ticketlistcontroller extends GetxController {
   RxList<TicketDto> tickets = <TicketDto>[].obs;
 
   Future<void> fetchTickets() async {
-    
-     var response = await api.apiCarStatusGetAllTicketsGet();
+    var response = await api.apiCarStatusGetAllTicketsGet();
 
-     tickets = response.body!.obs;
-     update();
+    tickets = response.body!.obs;
+    update();
   }
 
   Future<void> fetchTodos(String ticketId) async {
     Ticketcontroller ticketcontroller = Get.find();
 
-    var response = await api.apiCarStatusGetTicketByIdGet(ticketId: ticketId);
+    var response = await api.apiCarStatusGetTicketByIdGet(ticketNumber: ticketId);
 
-    var ticket = response.body!;
-
-     ticketcontroller.todos = ticket.toDos!.obs;
-     update();
+    if (response.body != null) {
+      var ticket = response.body!;
+      ticketcontroller.todos.assignAll(ticket.toDos ?? []);
+      update();
+    }
   }
 
-void updateTicket(TicketDto updatedTicket) {
+  void updateTicket(TicketDto updatedTicket) {
     final index = tickets.indexWhere(
       (t) => t.ticketnumber == updatedTicket.ticketnumber,
     );
@@ -36,5 +37,4 @@ void updateTicket(TicketDto updatedTicket) {
       tickets.refresh();
     }
   }
-
 }

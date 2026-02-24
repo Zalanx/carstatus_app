@@ -21,30 +21,31 @@ class Logincontroller extends GetxController {
   DbUser? loggedInUser;
 
   Future<void> handleLogin(UserDto user) async {
-
     var response = await api.apiCarStatusLoginUserPost(body: user);
 
     if (response.body == null) {
-
       if (ticketnumberController.text.isNotEmpty) {
-      var response = await api.apiCarStatusGetTicketByIdGet(
-        ticketId: ticketnumberController.text,
-      );
-
-      if (response.body != null) {
-        Get.to(() => TicketPage(ticket: response.body ?? TicketDto()));
-      } else {
-        Get.snackbar(
-          "Fehler",
-          "Kein Ticket mit dieser Nummer gefunden",
-          backgroundColor: Colors.redAccent,
+        var ticketResponse = await api.apiCarStatusGetTicketByIdGet(
+          ticketNumber: ticketnumberController.text,
         );
-      }
-      return;
-    }
 
-      Get.snackbar('Fehler', 'Login fehlgeschlagen: Benutzer und Ticketnummer nicht gefunden.', );
-      return; 
+        if (ticketResponse.body != null) {
+          Get.to(() => TicketPage(ticket: ticketResponse.body!));
+        } else {
+          Get.snackbar(
+            "Fehler",
+            "Kein Ticket mit dieser Nummer gefunden",
+            backgroundColor: Colors.redAccent,
+          );
+        }
+        return;
+      }
+
+      Get.snackbar(
+        'Fehler',
+        'Login fehlgeschlagen: Benutzer und Ticketnummer nicht gefunden.',
+      );
+      return;
     }
 
     loggedInUser = response.body;
@@ -57,7 +58,4 @@ class Logincontroller extends GetxController {
       Get.to(() => CustomerViewPage());
     }
   }
-
-
-
 }

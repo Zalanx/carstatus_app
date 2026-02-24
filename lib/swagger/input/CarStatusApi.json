@@ -50,7 +50,7 @@
         ],
         "parameters": [
           {
-            "name": "ticketId",
+            "name": "ticketNumber",
             "in": "query",
             "schema": {
               "type": "string"

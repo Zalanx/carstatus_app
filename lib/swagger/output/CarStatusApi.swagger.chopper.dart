@@ -27,11 +27,11 @@ final class _$CarStatusApi extends CarStatusApi {
 
   @override
   Future<Response<TicketDto>> _apiCarStatusGetTicketByIdGet({
-    String? ticketId,
+    String? ticketNumber,
   }) {
     final Uri $url = Uri.parse('/api/CarStatus/GetTicketById');
     final Map<String, dynamic> $params = <String, dynamic>{
-      'ticketId': ticketId,
+      'ticketNumber': ticketNumber,
     };
     final Request $request = Request(
       'GET',

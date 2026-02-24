@@ -13,7 +13,7 @@ class QrCodeScannerController extends GetxController {
       final String barcodeTicketnumber = capture.barcodes.first.rawValue ?? "";
 
       var response = await api.apiCarStatusGetTicketByIdGet(
-        ticketId: barcodeTicketnumber,
+        ticketNumber: barcodeTicketnumber,
       );
 
       if (response.body != null) {

@@ -1,6 +1,7 @@
 // ignore_for_file: type=lint
 
 import 'package:json_annotation/json_annotation.dart';
+import 'package:json_annotation/json_annotation.dart' as json;
 import 'package:collection/collection.dart';
 import 'dart:convert';
 
@@ -9,6 +10,7 @@ import 'package:chopper/chopper.dart';
 import 'client_mapping.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
+import 'package:http/http.dart' show MultipartFile;
 import 'package:chopper/chopper.dart' as chopper;
 import 'CarStatusApi.enums.swagger.dart' as enums;
 export 'CarStatusApi.enums.swagger.dart';
@@ -42,7 +44,7 @@ abstract class CarStatusApi extends ChopperService {
       client: httpClient,
       authenticator: authenticator,
       errorConverter: errorConverter,
-      baseUrl: baseUrl ?? Uri.parse('http://10.10.24.76:5276'),
+      baseUrl: Uri.parse('http://10.10.110.28:5276'),
     );
     return _$CarStatusApi(newClient);
   }
@@ -59,20 +61,20 @@ abstract class CarStatusApi extends ChopperService {
   Future<chopper.Response<List<TicketDto>>> _apiCarStatusGetAllTicketsGet();
 
   ///
-  ///@param ticketId
+  ///@param ticketNumber
   Future<chopper.Response<TicketDto>> apiCarStatusGetTicketByIdGet({
-    String? ticketId,
+    String? ticketNumber,
   }) {
     generatedMapping.putIfAbsent(TicketDto, () => TicketDto.fromJsonFactory);
 
-    return _apiCarStatusGetTicketByIdGet(ticketId: ticketId);
+    return _apiCarStatusGetTicketByIdGet(ticketNumber: ticketNumber);
   }
 
   ///
-  ///@param ticketId
+  ///@param ticketNumber
   @GET(path: '/api/CarStatus/GetTicketById')
   Future<chopper.Response<TicketDto>> _apiCarStatusGetTicketByIdGet({
-    @Query('ticketId') String? ticketId,
+    @Query('ticketNumber') String? ticketNumber,
   });
 
   ///

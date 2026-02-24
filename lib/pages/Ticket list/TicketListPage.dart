@@ -15,6 +15,7 @@ class TicketListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Ticketlistcontroller controller = Get.find<Ticketlistcontroller>();
     return CsScaffold(
       resizeToAvoidBottomInset: true,
       appBar: Padding(
@@ -33,13 +34,12 @@ class TicketListView extends StatelessWidget {
           ],
         ),
       ),
-      body: _pageBody(context),
+      body: _pageBody(context, controller),
     );
   }
 }
 
-Widget _pageBody(BuildContext context) {
-  Ticketlistcontroller controller = Get.find<Ticketlistcontroller>();
+Widget _pageBody(BuildContext context, Ticketlistcontroller controller) {
   return SafeArea(
     child: SizedBox(
       height: MediaQuery.sizeOf(context).height,
