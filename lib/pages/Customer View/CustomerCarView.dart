@@ -28,8 +28,7 @@ Widget _pageBody(BuildContext context, TicketDto ticket) {
     else if (ticket.carStatus?.value == "Abholbereit"){carStatusText = "Dein Auto ist fertig und kann abgeholt werden";}
   return SafeArea(
     child: SingleChildScrollView(
-      child: Expanded(
-        child: Column(
+      child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             CsText(
@@ -72,7 +71,6 @@ Widget _pageBody(BuildContext context, TicketDto ticket) {
             const SizedBox(height: 16),
           ],
         ),
-      ),
     ),
   );
 }
